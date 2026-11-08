@@ -6,7 +6,7 @@ Clean-room functional analysis and product architecture research for a professio
 |---|---|---|
 | 1. Competitive application analysis (The Cinema Designer) | [01-phase1-tcd-functional-analysis.md](01-phase1-tcd-functional-analysis.md) | Draft v0.1 |
 | 2. Equipment database specification | — | Not started |
-| 3. Engineering calculation catalog | — | Not started |
+| 3. Engineering calculation catalog (+ reference project worked examples) | [03-phase3-calculation-catalog.md](03-phase3-calculation-catalog.md), [phase3-worked-examples/](phase3-worked-examples/) | Draft v0.1 |
 | 4. Interactive 2D/3D designer | — | Not started |
 | 5. Automated design workflow | — | Not started |
 | 6. Engineering reports | — | Not started |

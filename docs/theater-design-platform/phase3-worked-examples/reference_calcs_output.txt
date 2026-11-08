@@ -1,0 +1,149 @@
+=== 1. ROOM ===
+W x L x H = 6.096 x 9.144 x 2.438 m ; V = 135.9 m3 (4800 ft3) ; S_total = 185.8 m2
+Ratios H:W:L = 1 : 2.50 : 3.75
+
+=== 2. ROOM MODES (rigid-wall rectangular model) ===
+First 15 modes (f Hz, (nx,ny,nz) with x=width, y=length, z=height):
+    18.8 Hz  (0, 1, 0)  axial
+    28.1 Hz  (1, 0, 0)  axial
+    33.8 Hz  (1, 1, 0)  tangential
+    37.5 Hz  (0, 2, 0)  axial
+    46.9 Hz  (1, 2, 0)  tangential
+    56.3 Hz  (0, 3, 0)  axial
+    56.3 Hz  (2, 0, 0)  axial
+    59.3 Hz  (2, 1, 0)  tangential
+    62.9 Hz  (1, 3, 0)  tangential
+    67.6 Hz  (2, 2, 0)  tangential
+    70.3 Hz  (0, 0, 1)  axial
+    72.8 Hz  (0, 1, 1)  tangential
+    75.0 Hz  (0, 4, 0)  axial
+    75.8 Hz  (1, 0, 1)  tangential
+    78.0 Hz  (1, 1, 1)  oblique
+Axial modes < 120 Hz:
+  width  (6.096 m): 28.1, 56.3, 84.4, 112.5
+  length (9.144 m): 18.8, 37.5, 56.3, 75.0, 93.8, 112.5
+  height (2.438 m): 70.3
+Mode count below 100 Hz: 30
+
+=== 3. RT60 (Sabine / Eyring), illustrative absorption data ===
+Untreated (carpet + drywall)
+    125 Hz  abar=0.23  Sabine=0.52 s  Eyring=0.46 s
+    250 Hz  abar=0.14  Sabine=0.83 s  Eyring=0.77 s
+    500 Hz  abar=0.21  Sabine=0.57 s  Eyring=0.51 s
+   1000 Hz  abar=0.23  Sabine=0.50 s  Eyring=0.44 s
+   2000 Hz  abar=0.26  Sabine=0.45 s  Eyring=0.39 s
+   4000 Hz  abar=0.28  Sabine=0.42 s  Eyring=0.36 s
+Treated (front wall + 35% of other walls = 35.7 m2 of 2in panel)
+    125 Hz  abar=0.20  Sabine=0.58 s  Eyring=0.52 s
+    250 Hz  abar=0.29  Sabine=0.41 s  Eyring=0.35 s
+    500 Hz  abar=0.42  Sabine=0.28 s  Eyring=0.22 s
+   1000 Hz  abar=0.43  Sabine=0.27 s  Eyring=0.21 s
+   2000 Hz  abar=0.44  Sabine=0.27 s  Eyring=0.20 s
+   4000 Hz  abar=0.45  Sabine=0.26 s  Eyring=0.20 s
+EBU Tech 3276-style reference Tm = 0.25*(V/100)^(1/3) = 0.28 s (comparison only)
+Schroeder frequency at T60=0.3s: fs = 2000*sqrt(T/V) = 94 Hz
+Schroeder frequency at T60=0.5s: fs = 2000*sqrt(T/V) = 121 Hz
+
+=== 4. SCREEN, SIGHTLINES, RISER ===
+Row1 distance to screen = 3.50 m ; row2 = 5.30 m
+Screen width for 45.0 deg at row1 = 2.899 m ; height 1.631 m ; diag 3.327 m = 131 in
+Image bottom 0.61 m, top 2.241 m, ceiling 2.438 m, space above image 0.197 m
+Row2 eye height required = 1.534 m -> riser = 0.434 m (17.1 in)
+Adopted riser (rounded up to whole inch) = 0.457 m (18 in)
+  row1: HVA (centre seat) = 45.0 deg ; vertical to top = 18.1 deg ; to bottom = -8.0 deg ; distance/width = 1.21
+  row2: HVA (centre seat) = 30.6 deg ; vertical to top = 7.4 deg ; to bottom = -10.1 deg ; distance/width = 1.83
+    row1 seat x=1.76: subtended HVA = 40.7 deg, off-centre angle = 20.2 deg
+    row1 seat x=2.62: subtended HVA = 44.5 deg, off-centre angle = 7.0 deg
+    row1 seat x=3.48: subtended HVA = 44.5 deg, off-centre angle = 7.0 deg
+    row1 seat x=4.34: subtended HVA = 40.7 deg, off-centre angle = 20.2 deg
+    row2 seat x=1.76: subtended HVA = 29.1 deg, off-centre angle = 13.7 deg
+    row2 seat x=2.62: subtended HVA = 30.4 deg, off-centre angle = 4.6 deg
+    row2 seat x=3.48: subtended HVA = 30.4 deg, off-centre angle = 4.6 deg
+    row2 seat x=4.34: subtended HVA = 29.1 deg, off-centre angle = 13.7 deg
+
+=== 5. PROJECTOR THROW, SHIFT, LUMINANCE (JVC DLA-NZ8 example) ===
+Throw ratio 1.43-2.92:1 -> throw 4.15-8.47 m -> lens plane y = 4.45-8.77 m (room length 9.14 m)
+Chosen lens position y=6.5 z=2.188 -> throw 6.20 m, throw ratio needed 2.14 (in range: True)
+Vertical offset lens-to-image-centre = 0.763 m = 46.8% of image height (NZ8 published +/-80%; confirm JVC's % definition)
+Lower beam edge height at row2 = 1.96 m ; seated head top row2 = 1.69 m ; standing person (1.80 m) on riser = 2.26 m -> standing blocks beam: True
+  2500 lm x 0.65 (calibration/ageing factor) x gain 1.0 on 50.9 ft2 -> 31.9 fL = 109 cd/m2
+  2500 lm x 0.65 (calibration/ageing factor) x gain 0.85 on 50.9 ft2 -> 27.1 fL = 93 cd/m2
+  2500 lm x 0.45 (calibration/ageing factor) x gain 1.0 on 50.9 ft2 -> 22.1 fL = 76 cd/m2
+
+=== 6. SPEAKER PLACEMENT (7.2.4) ===
+-- Layout A: RSP-optimised --
+ch        x      y     z | RSP(r1 ctr) az/el/dist |      r2 ctr az/el/dist
+L      1.40   0.00  1.17 |   23/  2/ 4.14 OK |   16/ -3/ 5.85 -- |
+C      3.05   0.00  1.17 |    0/  2/ 3.80 OK |    0/ -3/ 5.61 OK |
+R      4.70   0.00  1.17 |   23/  2/ 4.14 OK |   16/ -3/ 5.85 -- |
+Lss    0.00   4.34  1.83 |  100/ 14/ 3.19 OK |   67/  6/ 3.31 -- |
+Rss    6.10   4.34  1.83 |  100/ 14/ 3.19 OK |   67/  6/ 3.31 -- |
+Lrs    0.00   7.43  1.83 |  140/  9/ 4.81 OK |  121/  5/ 3.57 -- |
+Rrs    6.10   7.43  1.83 |  140/  9/ 4.81 OK |  121/  5/ 3.57 -- |
+Ltf    1.40   2.80  2.44 |   59/ 36/ 2.38 OK |   31/ 16/ 3.38 -- |
+Rtf    4.70   2.80  2.44 |   59/ 36/ 2.38 OK |   31/ 16/ 3.38 -- |
+Ltr    1.40   4.80  2.44 |  121/ 36/ 2.38 OK |   64/ 27/ 2.06 XX |
+Rtr    4.70   4.80  2.44 |  121/ 36/ 2.38 OK |   64/ 27/ 2.06 XX |
+Seat-channel combinations inside Dolby window: 30/80 (38%)
+-- Layout B: two-row compromise --
+ch        x      y     z | RSP(r1 ctr) az/el/dist |      r2 ctr az/el/dist
+L      1.40   0.00  1.17 |   23/  2/ 4.14 OK |   16/ -3/ 5.85 -- |
+C      3.05   0.00  1.17 |    0/  2/ 3.80 OK |    0/ -3/ 5.61 OK |
+R      4.70   0.00  1.17 |   23/  2/ 4.14 OK |   16/ -3/ 5.85 -- |
+Lss    0.00   4.70  1.83 |  106/ 14/ 3.27 OK |   74/  6/ 3.19 -- |
+Rss    6.10   4.70  1.83 |  106/ 14/ 3.27 OK |   74/  6/ 3.19 -- |
+Lrs    0.00   7.20  1.83 |  138/ 10/ 4.63 OK |  118/  5/ 3.46 -- |
+Rrs    6.10   7.20  1.83 |  138/ 10/ 4.63 OK |  118/  5/ 3.46 -- |
+Ltf    1.40   3.10  2.44 |   67/ 38/ 2.27 OK |   33/ 17/ 3.14 -- |
+Rtf    4.70   3.10  2.44 |   67/ 38/ 2.27 OK |   33/ 17/ 3.14 -- |
+Ltr    1.40   6.30  2.44 |  147/ 25/ 3.30 -- |  113/ 27/ 2.02 -- |
+Rtr    4.70   6.30  2.44 |  147/ 25/ 3.30 -- |  113/ 27/ 2.02 -- |
+Seat-channel combinations inside Dolby window: 20/80 (25%)
+
+=== 7. SPL / AMPLIFIER POWER (on-axis, distance-only, no room gain) ===
+Worst-case RSP distances: LCR 4.14 m, surround 4.81 m, top 2.38 m ; target 105.0 dB peak + 3.0 dB margin
+  JBL SCL-2 (LCR, in-wall): d=4.14 m, P_ref(2.83V)=1.33 W, required 913 W ; est. max at RSP 104.9 dB using 445 W (rated RMS (CEA-426B)) -> SHORT by 0.1 dB
+  JBL SCL-6 (surround, in-wall): d=4.81 m, P_ref(2.83V)=2.00 W, required 2317 W ; est. max at RSP 97.4 dB using 200 W (upper recommended amp power) -> SHORT by 7.6 dB
+  JBL SCL-8 (top, in-ceiling): d=2.38 m, P_ref(2.83V)=2.00 W, required 2257 W ; est. max at RSP 94.5 dB using 100 W (upper recommended amp power) -> SHORT by 10.5 dB
+  B&W CWM8.3 D (LCR, in-wall): d=4.14 m, P_ref(2.83V)=1.00 W, required 1366 W ; est. max at RSP 99.7 dB using 200 W (recommended amp power) -> SHORT by 5.3 dB
+  B&W CCM8.5 D (top, in-ceiling): d=2.38 m, P_ref(2.83V)=1.00 W, required 566 W ; est. max at RSP 101.3 dB using 120 W (recommended amp power) -> SHORT by 3.7 dB
+  B&W surround (model TBD): INSUFFICIENT DATA - sensitivity/impedance missing -> no power result; flagged
+Statistical-room correction (treated room, abar@1k=0.43, R=142 m2):
+  Q= 2.0 (DI 3.0 dB): critical distance 2.37 m ; LCR +6.1 dB, surround +7.1 dB, top +3.0 dB
+  Q= 5.0 (DI 7.0 dB): critical distance 3.76 m ; LCR +3.5 dB, surround +4.2 dB, top +1.5 dB
+  Q=10.0 (DI 10.0 dB): critical distance 5.31 m ; LCR +2.1 dB, surround +2.6 dB, top +0.8 dB
+Per-seat level relative to RSP (inverse-square only, layout A), dB:
+  L   : min  -3.7  max   0.7  spread 4.4
+  C   : min  -3.6  max  -0.1  spread 3.5
+  Lss : min  -3.0  max   4.1  spread 7.1
+  Lrs : min  -1.5  max   5.5  spread 7.0
+  Ltf : min  -4.9  max   2.7  spread 7.5
+  Ltr : min  -3.1  max   5.4  spread 8.5
+SCL-8 (top) off-normal angle to seats, layout A (published HF coverage: 120 deg H x 60 deg V about a 45 deg axis):
+  Ltf: off-normal 37-77 deg
+  Ltr: off-normal 37-73 deg
+
+=== 8. SUBWOOFERS ===
+LFE target 115.0 dB at RSP; 4 woofers coherent gain +12.0 dB; d=4.0 m; no room gain -> 316 W per woofer (rated 2500 W)
+Modal-sum model: rigid walls, uniform damping from T60=0.4s, modes <=250 Hz, 8 seats, 20-100 Hz in 1/24 oct (56 pts)
+  S1 front wall 1/4 & 3/4 width       : mean seat-to-seat SD = 3.35 dB ; max SD = 6.5 dB ; RSP curve range = 20.9 dB
+  S2 front & back wall centre         : mean seat-to-seat SD = 2.83 dB ; max SD = 11.1 dB ; RSP curve range = 32.5 dB
+  S3 side-wall midpoints              : mean seat-to-seat SD = 2.80 dB ; max SD = 8.4 dB ; RSP curve range = 21.1 dB
+  S4 front-left & back-right corners  : mean seat-to-seat SD = 2.83 dB ; max SD = 7.3 dB ; RSP curve range = 18.9 dB
+  S0 single sub front-left corner     : mean seat-to-seat SD = 4.36 dB ; max SD = 9.6 dB ; RSP curve range = 19.1 dB
+
+=== 9. FIRST-REFLECTION POINTS (image-source, RSP) ===
+  L -> left wall : x=0.00 y=1.19 z=1.13 ; path diff 1.71 m = 5.0 ms ; inverse-square level re direct -3.0 dB
+  L -> right wall: x=6.10 y=2.30 z=1.10 ; path diff 4.48 m = 13.1 ms ; inverse-square level re direct -6.4 dB
+  L -> ceiling   : x=2.19 y=1.81 z=2.44 ; path diff 0.78 m = 2.3 ms ; inverse-square level re direct -1.5 dB
+  R -> left wall : x=0.00 y=2.30 z=1.10 ; path diff 4.48 m = 13.1 ms ; inverse-square level re direct -6.4 dB
+  R -> right wall: x=6.10 y=1.19 z=1.13 ; path diff 1.71 m = 5.0 ms ; inverse-square level re direct -3.0 dB
+  R -> ceiling   : x=3.91 y=1.81 z=2.44 ; path diff 0.78 m = 2.3 ms ; inverse-square level re direct -1.5 dB
+  C -> left wall : x=0.00 y=1.90 z=1.11 ; path diff 3.38 m = 9.9 ms ; inverse-square level re direct -5.5 dB
+  C -> right wall: x=6.10 y=1.90 z=1.11 ; path diff 3.38 m = 9.9 ms ; inverse-square level re direct -5.5 dB
+  C -> ceiling   : x=3.05 y=1.81 z=2.44 ; path diff 0.83 m = 2.4 ms ; inverse-square level re direct -1.7 dB
+
+=== 10. CHANNEL / AMP COUNT ===
+Full-range channels 11; sub outputs 2 (each SSW-1 = 2 woofers -> 4 amp channels)
+JBL SDP-58: 16 processed output channels -> 11 + 2 subs = 13 <= 16 OK (4 spare for 9.x.6 growth needs 15+2=17: NOT OK)
+JBL SDA-7120: 7 ch; 100 W/8 ohm, 140 W/4 ohm all-channels-driven -> 2 units = 14 ch for 11 full-range
