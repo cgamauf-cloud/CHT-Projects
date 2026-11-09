@@ -1,0 +1,48 @@
+Layout 7.2.4  compare {'7.2.4': {'hits': 38, 'total': 80, 'pct': 47.5}, '7.2.6': {'hits': 42, 'total': 96, 'pct': 43.75}}
+Screen 2.657 x 1.494  riser 1'-6" (req 0.456)  walkway 0.35
+  L    SCL-2  Front wall, behind AT screen/fabric x=     2'-4" y=     0'-0" z=   3'-10"  az  -28.4 el   1.6 d 4.27  seats 3/8
+  C    SCL-2  Front wall, behind AT screen/fabric x=     9'-0" y=     0'-0" z=   3'-10"  az    0.0 el   1.8 d 3.75  seats 8/8
+  R    SCL-2  Front wall, behind AT screen/fabric x=    15'-8" y=     0'-0" z=   3'-10"  az   28.4 el   1.6 d 4.27  seats 3/8
+  Lss  SCL-3  Left wall                          x=     0'-0" y=    14'-1" z=6'-2 3/4"  az -101.1 el  16.9 d 2.92  seats 4/8
+  Rss  SCL-3  Right wall                         x=    18'-0" y=    14'-1" z=6'-2 3/4"  az  101.1 el  16.9 d 2.92  seats 4/8
+  Lrs  SCL-3  Left wall                          x=     0'-0" y=20'-7 3/4" z=6'-2 3/4"  az -132.8 el  12.8 d 3.83  seats 2/8
+  Rrs  SCL-3  Right wall                         x=    18'-0" y=20'-7 3/4" z=6'-2 3/4"  az  132.8 el  12.8 d 3.83  seats 2/8
+  Ltf  SCL-3  Ceiling                            x= 6'-4 1/2" y= 6'-6 3/4" z=    9'-0"  az  -24.6 el  41.3 d 2.56  seats 4/8
+  Rtf  SCL-3  Ceiling                            x=11'-7 1/2" y= 6'-6 3/4" z=    9'-0"  az   24.6 el  41.3 d 2.56  seats 4/8
+  Ltr  SCL-3  Ceiling                            x= 6'-4 1/2" y=    21'-2" z=    9'-0"  az -163.5 el  31.0 d 3.29  seats 6/8
+  Rtr  SCL-3  Ceiling                            x=11'-7 1/2" y=    21'-2" z=    9'-0"  az  163.5 el  31.0 d 3.29  seats 6/8
+Subs:
+  2x front wall, between C and L/R               feas=True  meanSD 4.58 maxSD 10.5 SPLff 107.0
+  2x side-wall midpoints                         feas=True  meanSD 5.07 maxSD 9.0 SPLff 110.0
+  2x front corners                               feas=True  meanSD 5.24 maxSD 16.0 SPLff 105.8
+  4x front (between C-L/R) + back wall           feas=True  meanSD 4.62 maxSD 10.2 SPLff 113.2
+  4x corners                                     feas=False meanSD 4.26 maxSD 8.8 SPLff 111.9
+  4x side walls at 1/4 and 3/4 length            feas=True  meanSD 2.96 maxSD 8.2 SPLff 114.4
+  4x wall midpoints (front pair split around C)  feas=True  meanSD 5.23 maxSD 9.3 SPLff 114.7
+  chosen: 4x side walls at 1/4 and 3/4 length
+Projector lens y=6.67 z=2.48 TR 2.39 shift 75% beam {'row1': {'beam_bottom': 1.621744817416932, 'head_seated': 1.23, 'standing_1800': 1.8, 'standing_blocks': True}, 'row2': {'beam_bottom': 2.1797463132346886, 'head_seated': 1.6872000000000003, 'standing_1800': 2.2572, 'standing_blocks': True}}
+  SPL L    req    967 W  spk ff 104.6 room 108.0  w/ amp room 102.3
+  SPL C    req    748 W  spk ff 105.7 room 108.6  w/ amp room 102.9
+  SPL R    req    967 W  spk ff 104.6 room 108.0  w/ amp room 102.3
+  SPL Lss  req    571 W  spk ff 105.2 room 107.1  w/ amp room 103.1
+  SPL Rss  req    571 W  spk ff 105.2 room 107.1  w/ amp room 103.1
+  SPL Lrs  req    983 W  spk ff 102.8 room 105.8  w/ amp room 101.8
+  SPL Rrs  req    983 W  spk ff 102.8 room 105.8  w/ amp room 101.8
+  SPL Ltf  req    439 W  spk ff 106.3 room 107.9  w/ amp room 103.9
+  SPL Rtf  req    439 W  spk ff 106.3 room 107.9  w/ amp room 103.9
+  SPL Ltr  req    722 W  spk ff 104.2 room 106.5  w/ amp room 102.5
+  SPL Rtr  req    722 W  spk ff 104.2 room 106.5  w/ amp room 102.5
+RT treated: [0.42, 0.33, 0.2, 0.17, 0.16, 0.15] untreated: [0.42, 0.73, 0.52, 0.45, 0.4, 0.37]
+Viewing: [('1A', 37.8, 16.3), ('1B', 41.6, 16.3), ('1C', 41.6, 16.3), ('1D', 37.8, 16.3), ('2A', 26.5, 5.8), ('2B', 27.7, 5.8), ('2C', 27.7, 5.8), ('2D', 26.5, 5.8)]
+System: {'full_range': 11, 'sub_units': 4, 'sub_outputs': 2, 'proc_outputs_used': 13, 'proc_capacity': 16, 'proc_ok': True, 'amp_units': 2, 'amp_spare': 3}
+Cables: [('L', 18.3, 12), ('C', 16.2, 12), ('R', 14.2, 14), ('Lss', 14.0, 14), ('Rss', 8.5, 14), ('Lrs', 12.0, 14), ('Rrs', 6.5, 14), ('Ltf', 13.5, 14), ('Rtf', 11.9, 14), ('Ltr', 9.0, 14), ('Rtr', 7.4, 14), ('SW1', 17.3, 10), ('SW2', 13.7, 12), ('SW3', 11.8, 12), ('SW4', 8.2, 14)]
+WARNINGS:
+  - Front-row vertical angle to image top 16.3 deg (>15 deg guidance [verify]).
+  - Standing 1.80 m person on riser reaches 2.26 m; beam bottom there 2.18 m -> casts shadow when standing.
+  - Subwoofers: est. free-field max 114.4 dB vs LFE target 115 dB; relies on low-frequency room gain (not modelled). Confirm with JBL CTA-2010 data.
+  - Treated mid-band RT60 0.18 s is well below the ~0.26 s small-room reference: risk of an over-damped room. Trade some absorption for diffusion (e.g. rear half of side zones).
+  - 125 Hz RT60 0.42 s vs mid-band 0.18 s: add low-frequency absorption (membrane/pressure traps) beyond the 4 corner traps.
+  - Axial mode coincidence near 62.5 Hz: [0, 0, 1] and [2, 0, 0] (L/W ratio).
+  - Axial mode coincidence near 93.8 Hz: [0, 4, 0] and [3, 0, 0] (L/W ratio).
+  - Axial mode coincidence near 125.0 Hz: [0, 0, 2] and [4, 0, 0] (L/W ratio).
+  - Level: SDA-7120 (~120 W @ 6 ohm, assumed) gives est. 101.8-103.9 dB peaks at the RSP: meets reference -5 dB, not full reference. Full 105 dB + 3 dB margin needs up to 983 W/ch (free-field basis) on L, C, R, Lss, Rss, Lrs, Rrs, Ltf, Rtf, Ltr, Rtr.
