@@ -165,6 +165,9 @@ PJ = D["projector"]
 SUB = next(o for o in D["subs"]["options"] if o["name"] == D["subs"]["chosen"])
 TZ = D["treatment_zones"]
 CAT = D["catalog"]
+SUBM = D["subs"]["model"]
+PKG = D["package"]
+OPT = D["options"]
 SEAT_W, SEAT_FRONT, SEAT_BACK, FOOT = 0.80, D["inputs"]["seating"]["seat_front"], D["inputs"]["seating"]["seat_back"], D["inputs"]["seating"]["footrest"]
 
 
@@ -277,8 +280,8 @@ def plan_sheet(number, title, rcp=False):
             sh.rect(X(p[0] - gw2 / 2), Y(p[1] - gh2 / 2), gw2 * s, gh2 * s, cls)
             sh.tag(X(p[0]), Y(p[1] + gh2 / 2) + 20, c["ch"], "tag" if rcp else "tagabove")
     # subwoofers
-    sw_w, sw_h = CAT["SSW-3"]["grille_wh"]
-    sw_d = CAT["SSW-3"]["depth"]
+    sw_w, sw_h = CAT[SUBM]["grille_wh"]
+    sw_d = CAT[SUBM]["depth"]
     for i, (pos, wall) in enumerate(zip(SUB["units"], SUB["walls"])):
         lab = f"SW{i+1}"
         if wall == "left":
@@ -366,8 +369,8 @@ def notes(sh, x, y, title, lines, width=58):
 # ----------------------------------------------------------------------------
 def sheet_a101():
     sh, X, Y, s = plan_sheet("A-101", "Floor Plan and Speaker Layout")
-    y = legend(sh, 1000, 90, [("spk", "In-wall loudspeaker (JBL SCL-2 / SCL-3)", "rect"),
-                             ("sub", "In-wall subwoofer (JBL SSW-3)", "rect"),
+    y = legend(sh, 1000, 90, [("spk", f"In-wall loudspeaker (JBL {PKG['lcr']} / {PKG['surround']})", "rect"),
+                             ("sub", f"Subwoofer (JBL {SUBM})", "rect"),
                              ("spkabove", "Ceiling loudspeaker (above)", "rect"),
                              ("seat", "Recliner, upright (footrest dashed)", "rect"),
                              ("riser", "Riser platform", "rect"),
@@ -386,7 +389,7 @@ def sheet_a101():
     notes(sh, 1000, y + 24, "PLAN NOTES", [
         "Dimensions to finished interior faces. Concept dimensions; field-verify before framing.",
         "Front wall is a full-width acoustically transparent (AT) fabric plane; L/C/R are in-wall behind it.",
-        "In-wall speakers and subwoofers need 2x6 framing (SCL-2 >=152 mm cavity; SSW-3 5.1 in deep).",
+        f"Check framing depth for in-wall {PKG['lcr']} and {SUBM} (2x6 walls recommended; see manufacturer templates).",
         "Speaker centres are shown; see AV-501 for X/Y/Z coordinates and AV-601 for seat compliance.",
         "Ear points (dots) at 1.05 m above row floor; RSP is row-1 centre between seats 1B/1C.",
         "OK = seats (of 8) inside the Dolby placement window for that channel."], width=52)
@@ -395,7 +398,7 @@ def sheet_a101():
 
 def sheet_a102():
     sh, X, Y, s = plan_sheet("A-102", "Reflected Ceiling Plan", rcp=True)
-    y = legend(sh, 1000, 90, [("spk", "Ceiling loudspeaker (JBL SCL-3, verify ceiling use)", "rect"),
+    y = legend(sh, 1000, 90, [("spk", f"Ceiling loudspeaker (JBL {PKG['top']})", "rect"),
                              ("proj", "Projector and mount (lens at front edge)", "rect"),
                              ("beam", "Projected image edges", "line"),
                              ("zone", "Acoustic cloud / first-reflection zone", "rect"),
@@ -416,7 +419,7 @@ def sheet_a102():
     notes(sh, 1000, y + 24, "CEILING NOTES", [
         f"Ceiling height {ftin(H)} (ASSUMED). Confirm joist direction and depth before locating ceiling speakers.",
         f"Projector lens at {ftin(ly - SC['y'])} from screen plane, lens height {ftin(lz)}; throw ratio {PJ['tr']:.2f}:1.",
-        f"Vertical lens shift required {PJ['shift_pct']:.0f}% of image height (published limit +/-80%; verify JVC definition).",
+        f"Vertical lens shift required {PJ['shift_pct']:.0f}% of image height (published limit +/-{PJ['spec']['vshift_pct']}%; verify Sony definition).",
         "Overhead speakers aimed toward midpoint between rows where the model allows rotation.",
         "Provide a dedicated 20 A circuit and conduit (HDMI fibre + control) to the projector location."], width=52)
     return sh
@@ -438,7 +441,7 @@ def sheet_a201():
             "small")
     for ch in ("L", "C", "R"):
         p = CH[ch]["pos"]
-        gw, gh = CAT["SCL-2"]["grille_wh"]
+        gw, gh = CAT[CH["L"]["model"]]["grille_wh"]
         sh.rect(X(p[0] - gw / 2), Z(p[2] + gh / 2), gw * s, gh * s, "hidspk")
         sh.circle(X(p[0]), Z(p[2] + 0.12), 7, "hid")
         sh.tag(X(p[0]), Z(p[2] - gh / 2) + 26, ch)
@@ -468,7 +471,7 @@ def sheet_a201():
     sh.dim(X(0) - 12, Z(0), X(0) - 12, Z(H), -84, ftin(H))
     notes(sh, 170, 820, "ELEVATION NOTES", [
         f"Image {ftin(SC['w'])} W x {ftin(SC['h'])} H; bottom of image {ftin(SC['zb'])} A.F.F.; top {ftin(SC['zt'])}.",
-        "L/C/R JBL SCL-2 in-wall behind AT fabric, centred at 1.17 m (3'-10\"); verify grille clear of screen frame.",
+        f"L/C/R JBL {PKG['lcr']} behind AT fabric, centred at 1.17 m (3'-10\"); verify grille clear of screen frame.",
         "Black, absorptive treatment behind the full AT plane; corner bass traps behind fabric.",
         f"Front-row vertical angle to top of image {max(v['v_top'] for v in D['viewing']):.1f} deg (guidance ~15 deg, verify)."],
         width=110)
@@ -478,7 +481,7 @@ def sheet_a201():
 def sheet_a202():
     s = scale_units(3 / 8)
     sh = Sheet("A-202", "Side Wall Elevations", '3/8" = 1\'-0" (on 11x17)')
-    sw_w, sw_h = CAT["SSW-3"]["grille_wh"]
+    sw_w, sw_h = CAT[SUBM]["grille_wh"]
     for k, (wall, oy, flip) in enumerate((("left", 120, True), ("right", 590, False))):
         ox = 140
         # looking at the wall from inside: left wall -> screen on the right; right wall -> screen on the left
@@ -521,8 +524,8 @@ def sheet_a202():
         for a, b in zip(zs, zs[1:]):
             sh.dim(xe, Z(a), xe, Z(b), 40, ftin(b - a))
     notes(sh, 1135, 130, "NOTES", [
-        "Surrounds JBL SCL-3 in-wall at a common centre height to clear row-2 heads on the riser.",
-        "SSW-3 subwoofers are vertical in 2x6 walls, bottom of grille 6\" A.F.F.; locate between studs per JBL template.",
+        f"Surrounds JBL {PKG['surround']} in-wall at a common centre height to clear row-2 heads on the riser.",
+        f"{SUBM} subwoofers vertical, bottom of grille 6\" A.F.F.; locate between studs per JBL template. Layout: {D['subs']['chosen']} (see AV-602).",
         "Absorption zones derived from first-reflection points of L/C/R for all eight seats, plus margin.",
         "Treat the rear half of side walls with diffusion or leave reflective to avoid over-damping (see AV-601 RT60).",
         "Subwoofer grilles may sit behind fabric; keep panels clear of sub cut-outs."], width=33)
@@ -544,8 +547,8 @@ def sheet_a301():
     sh.rect(U(rf), Z(rz), (rb - rf) * s, rz * s, "riser")
     # screen + centre speaker
     sh.line(U(SC["y"]), Z(SC["zb"]), U(SC["y"]), Z(SC["zt"]), "screenln")
-    gw, gh = CAT["SCL-2"]["grille_wh"]
-    dep = CAT["SCL-2"]["depth"]
+    gw, gh = CAT[CH["C"]["model"]]["grille_wh"]
+    dep = CAT[CH["C"]["model"]]["depth"]
     pc = CH["C"]["pos"]
     sh.rect(U(0) - dep * s, Z(pc[2] + gh / 2), dep * s, gh * s, "spk")
     sh.tag(U(0) + 32, Z(pc[2] + gh / 2) - 16, "C")
@@ -631,16 +634,19 @@ def sheet_av501():
     for c in D["channels"]:
         p = c["pos"]
         aim = c.get("aim")
-        ch_rows.append([e(c["ch"]), e(f"{CAT[c['model']]['brand']} {c['model']}"), e(c["mount"]),
+        ch_rows.append([e(c["ch"]), e(f"JBL Synthesis {c['model']}"), e(c["mount"]),
                         e(ftin(p[0])), e(ftin(p[1])), e(ftin(p[2])), f"{abs(c['az']):.1f}°", f"{c['el']:.1f}°",
                         e(ftin(c["d"])), e(f"yaw {aim['yaw']:.0f}° / tilt {aim['tilt']:.0f}°" if aim else "flush, on-axis")])
     for i, (pos, w_) in enumerate(zip(SUB["units"], SUB["walls"])):
-        ch_rows.append([f"SW{i+1}", "JBL Synthesis SSW-3", e(f"{w_.title()} wall, vertical"), e(ftin(pos[0])), e(ftin(pos[1])),
+        ch_rows.append([f"SW{i+1}", f"JBL Synthesis {SUBM}", e(f"{w_.title()} wall, vertical"), e(ftin(pos[0])), e(ftin(pos[1])),
                         e(ftin(pos[2])), "-", "-", "-", "-"])
     t1 = table(["Tag", "Model", "Mounting", "X (from left wall)", "Y (from screen wall)", "Z (A.F.F.)", "Azimuth @RSP",
                 "Elevation @RSP", "Distance", "Aim"], ch_rows, "num")
-    bom = [[str(b["qty"]), e(b["item"]), e(b["desc"]), e(b["use"])] for b in D["bom"]]
-    t2 = table(["Qty", "Item", "Description", "Use"], bom)
+    bom = [[str(b["qty"]), e(b["model"]), e(b["sku"] or "-"), e(b["desc"]), e(b.get("note", "")),
+            money(b.get("msrp")), money(b.get("ext_msrp"))] for b in D["bom"]]
+    if D.get("msrp_total") is not None:
+        bom.append(["", "", "", "<b>Equipment on Savant list</b>", "", "", f"<b>{money(D['msrp_total'])}</b>"])
+    t2 = table(["Qty", "Model", "SKU", "Description", "Note", "List (MSRP)", "Ext. list"], bom, "num")
     amap = [[e(a["ch"]), e(a["amp"]), str(a["out"])] for a in D["amp_map"]]
     t3 = table(["Channel", "Amplifier", "Output"], amap, "num")
     cab = [[e(c["ch"]), f"{c['run_m']:.1f} m ({c['run_m']/FT:.0f} ft)", f"{c['awg']} AWG", f"{c['loop_ohm']:.3f} &Omega;",
@@ -650,9 +656,10 @@ def sheet_av501():
     body = (f'<div class="g2"><div class="cell wide"><h3>Loudspeaker schedule</h3>{t1}'
             f'<p class="fine">Coordinates: origin at front-left floor corner at the finished faces; X across the room, Y from the screen wall, Z above finished floor. '
             f'Azimuth 0° = toward the screen.</p></div>'
-            f'<div class="cell"><h3>Equipment schedule</h3>{t2}'
+            f'<div class="cell wide"><h3>Equipment schedule ({e(PKG["label"])} package)</h3>{t2}'
             f'<p class="fine">Processor outputs used: {sy["proc_outputs_used"]} of {sy["proc_capacity"]} '
-            f'({sy["full_range"]} full-range + {sy["sub_outputs"]} sub outputs; {sy["sub_units"]} subwoofers, front pair and rear pair).</p></div>'
+            f'({sy["full_range"]} full-range + {sy["sub_outputs"]} sub outputs; {sy["sub_units"]} subwoofers). '
+            f'List prices: {e(D.get("price_source") or "not loaded")}. Dealer cost is kept in the private parts catalog only.</p></div>'
             f'<div class="cell"><h3>Amplifier channel map</h3>{t3}</div>'
             f'<div class="cell"><h3>Speaker cable schedule</h3>{t4}'
             f'<p class="fine">Rack outside the back wall. Length = vertical drop + ceiling route (Manhattan) + 1.5 m drop + 2.0 m service loop. '
@@ -673,15 +680,15 @@ def sheet_av601():
         w = c["window"]
         comp.append([e(c["ch"]), e(f"{w[0]} {w[1]}-{w[2]}°")] + cells)
     t1 = table(["Ch", "Window"] + seats, comp, "num comp")
-    spl = [[e(r["ch"]), e(r["model"]), f"{r['d']:.2f}", f"{r['p_req']:.0f}", f"{r['cap_spk_ff']:.1f}",
-            f"{r['cap_spk_room']:.1f}", f"{r['cap_amp_room']:.1f}"] for r in D["spl"]["rows"]]
-    t2 = table(["Ch", "Model", "Dist (m)", "W for 105+3 dB", "Spk max, free-field", "Spk max, +room", "With SDA-7120, +room"], spl, "num")
+    spl = [[e(r["ch"]), e(r["model"]), e(r["amp"]), f"{r['p_amp']:.0f}", f"{r['d']:.2f}", f"{r['p_req']:.0f}",
+            f"{r['cap_spk_ff']:.1f}", f"{r['cap_amp_room']:.1f}"] for r in D["spl"]["rows"]]
+    t2 = table(["Ch", "Model", "Amp", "Amp W @Z", "Dist (m)", "W for 105+3 dB", "Spk max, free-field", "With amp, +room"], spl, "num")
     subs = []
     for o in D["subs"]["options"]:
-        mark = "&#9679; " if o["name"] == D["subs"]["chosen"] else ""
-        subs.append([mark + e(o["name"]), "yes" if o["feasible"] else "<b>no</b> (conflict)", f"{o['mean_sd']:.2f}",
-                     f"{o['max_sd']:.1f}", f"{o['spl_max_ff']:.1f}"])
-    t3 = table(["Subwoofer option", "Feasible", "Mean seat SD (dB)", "Max SD (dB)", "Max LFE @RSP free-field (dB)"], subs, "num")
+        mark = "&#9679; " if o["id"] == D["subs"]["chosen_id"] else ""
+        feas = "yes" if o["feasible"] else f"<b>no</b> ({e(', '.join(o['conflicts']) or 'span')})"
+        subs.append([mark + e(o["name"]), str(o["n"]), feas, f"{o['mean_sd']:.2f}", f"{o['max_sd']:.1f}", f"{o['spl_max_ff']:.1f}"])
+    t3 = table(["Subwoofer layout", "Subs", "Feasible", "Mean seat SD (dB)", "Max SD (dB)", "Max LFE @RSP (dB)"], subs, "num")
     ac = D["acoustics"]
     rt = [[str(b["band"]), f"{u['eyring']:.2f}", f"{b['eyring']:.2f}"] for b, u in zip(ac["rt_treated"], ac["rt_untreated"])]
     t4 = table(["Band (Hz)", "RT60 untreated (s)", "RT60 treated (s)"], rt, "num")
@@ -716,19 +723,19 @@ def sheet_av601():
 def cover():
     p = D["inputs"]
     sy = D["system"]
-    idx = [("T-001", "Cover, sheet index, design basis"), ("A-101", "Floor plan and speaker layout"),
-           ("A-102", "Reflected ceiling plan"), ("A-201", "Screen wall elevation"), ("A-202", "Side wall elevations"),
-           ("A-301", "Longitudinal section"), ("AV-501", "Schedules"), ("AV-601", "Performance calculations and review")]
+    idx = SHEET_INDEX
     idx_html = "".join(f'<li><a href="#{n.lower()}"><span>{n}</span>{e(t)}</a></li>' for n, t in idx)
     v = D["viewing"]
     facts = [("Room", f"{p['room']['length_ft']}′ × {p['room']['width_ft']}′ × {p['room']['height_ft']}′ ({D['room']['V']:.0f} m³)"),
-             ("Format", f"Dolby Atmos {D['layout']}, {sy['sub_units']} × SSW-3"),
+             ("Package", f"{PKG['label']}: {PKG['lcr']} / {PKG['surround']} / {PKG['top']}"),
+             ("Format", f"Dolby Atmos {D['layout']}, {sy['sub_units']} × {SUBM}"),
              ("Seating", f"2 rows × 4, riser {ftin(SE['riser'])}"),
              ("Screen", f"{p['screen']['diag_in']}″ {p['screen']['aspect_label']} AT, {ftin(SC['w'])} wide"),
              ("Row 1 view", f"{v[1]['hva']:.0f}° horizontal"),
-             ("Processor", f"SDP-58, {sy['proc_outputs_used']}/{sy['proc_capacity']} outputs"),
-             ("Est. level", f"{D['spl']['achievable_with_sda7120']:.0f}+ dB peaks w/ SDA-7120"),
-             ("Bass spread", f"{SUB['mean_sd']:.1f} dB mean seat SD")]
+             ("Processor", f"{sy['processor']}, {sy['proc_outputs_used']}/{sy['proc_capacity']} outputs"),
+             ("Est. level", f"{D['spl']['achievable']:.0f}-{D['spl']['achievable_max']:.0f} dB peaks"),
+             ("Bass spread", f"{SUB['mean_sd']:.1f} dB mean seat SD"),
+             ("Equipment list", money(D.get("msrp_total")) + " MSRP" if D.get("msrp_total") else "prices not loaded")]
     facts_html = "".join(f'<div class="fact"><span class="k">{e(k)}</span><span class="v">{e(vv)}</span></div>' for k, vv in facts)
     basis = [
         "Clean-room design using published manufacturer data and the CHT calculation catalog (Phase 3). Formula IDs on AV-601.",
@@ -736,19 +743,227 @@ def cover():
         "Screen on the 18′ wall. Full-width acoustically transparent front wall; L/C/R in-wall behind it.",
         "Equipment rack outside the theater beyond the back wall; door on the back wall at the right aisle.",
         "Placement windows from Dolby home-theater guidance as commonly cited; verify against the current Dolby document.",
-        "Output figures are estimates (±3 dB). JBL SCL-3 ceiling use and its grille size must be verified with JBL.",
+        "Output figures are estimates (±3 dB). Speaker footprints marked ASSUMED in the catalog must be verified with JBL.",
+        f"Products and SKUs from the {D.get('price_source') or 'Savant'}; Good / Better / Best compared on AV-701.",
     ]
     basis_html = "".join(f"<li>{e(b)}</li>" for b in basis)
     return (f'<section class="sheet doc cover" id="t-001"><header class="dochead"><div class="docbrand">CHT</div>'
             f'<div class="docmeta"><span>{e(p["project"])}</span><span>{e(p["project_no"])} &middot; Rev {e(p["revision"])} &middot; {e(p["date"])}</span></div>'
             f'<div class="docno"><span class="k">SHEET</span><span class="n">T-001</span></div></header>'
             f'<div class="coverhero"><div class="eyebrow">Concept drawing set</div><h1>JBL Synthesis Theater, 24 × 18</h1>'
-            f'<p class="lede">Dolby Atmos {D["layout"]} dedicated theater with two rows of seating, an acoustically transparent '
-            f'120″ screen and an all JBL Synthesis loudspeaker and electronics package.</p>'
+            f'<p class="lede">Dolby Atmos {D["layout"]} dedicated theater with two rows of seating and an acoustically transparent '
+            f'120″ screen. Drawn for the <b>{e(PKG["label"])}</b> package ({e(PKG["tagline"])}); all three packages are compared on AV-701.</p>'
             f'<div class="facts">{facts_html}</div></div>'
             f'<div class="g2"><div class="cell"><h3>Sheet index</h3><ol class="index">{idx_html}</ol></div>'
             f'<div class="cell"><h3>Design basis and assumptions</h3><ul class="basis">{basis_html}</ul></div></div>'
             f'<footer class="docfoot">Concept design &middot; not for construction &middot; generated from design.json by the CHT design engine v0.1</footer></section>')
+
+
+SHEET_INDEX = [("T-001", "Cover, sheet index, design basis"), ("A-101", "Floor plan and speaker layout"),
+               ("A-102", "Reflected ceiling plan"), ("A-201", "Screen wall elevation"), ("A-202", "Side wall elevations"),
+               ("A-301", "Longitudinal section"), ("AV-501", "Schedules"), ("AV-601", "Performance calculations and review"),
+               ("AV-602", "Subwoofer planner (interactive)"), ("AV-701", "Good / Better / Best options")]
+
+
+def money(v):
+    return "-" if v is None else f"${v:,.0f}"
+
+
+def sheet_av602():
+    data = {"W": W, "L": L, "H": H, "c": 343.0, "T60": D["subs"]["T60_LF"],
+            "ears": [s_["ear"] for s_ in SE["seats"]], "ids": [s_["id"] for s_ in SE["seats"]], "rsp": SE["rsp"],
+            "occupied": D["occupied"], "sub": {"model": SUBM, "w": D["subs"]["grille_wh"][0], "h": D["subs"]["grille_wh"][1],
+                                               "zc": D["subs"]["zc"], "lmax": D["subs"]["lmax_1m_unit"]},
+            "layouts": [{"id": o["id"], "name": o["name"], "units": o["wall_u"], "mean_sd": o["mean_sd"], "feasible": o["feasible"]}
+                        for o in D["subs"]["options"]],
+            "chosen": D["subs"]["chosen_id"], "screen": [SC["x0"], SC["x1"], SC["y"]],
+            "door": [D["inputs"]["door"]["x0"], D["inputs"]["door"]["width"]]}
+    opts = "".join(f'<option value="{e(o["id"])}"{" selected" if o["id"] == D["subs"]["chosen_id"] else ""}>'
+                   f'{e(o["name"])} ({o["n"]}){"" if o["feasible"] else " - conflicts"}</option>' for o in D["subs"]["options"])
+    body = (f'<div class="planner">'
+            f'<div class="pcontrols"><label for="sublayout">Layout</label><select id="sublayout">{opts}'
+            f'<option value="custom">Custom (dragged)</option></select>'
+            f'<button type="button" id="subreset">Reset to recommended</button>'
+            f'<span class="hint">Drag a subwoofer along any wall, or focus one and use the arrow keys (0.1 m steps). '
+            f'Results update as you move.</span></div>'
+            f'<div class="pgrid"><div class="pcell"><svg id="subplan" viewBox="0 0 100 100" role="img" aria-label="Room plan with subwoofers"></svg></div>'
+            f'<div class="pcell"><div class="pmetrics" id="submetrics" aria-live="polite"></div>'
+            f'<svg id="subchart" viewBox="0 0 520 300" role="img" aria-label="Predicted bass response at each seat"></svg>'
+            f'<p class="fine">Predicted low-frequency response at every seat (thin) and the RSP (bold), 20-120 Hz, '
+            f'rigid-wall modal model with T60 = {D["subs"]["T60_LF"]} s. Use it to compare layouts; confirm with measurements. '
+            f'Mean seat SD = average across frequency of the level spread between the 8 seats (lower is more even).</p></div></div>'
+            f'<script type="application/json" id="subdata">{json.dumps(data)}</script></div>')
+    return html_sheet("AV-602", f"Subwoofer planner: {D['subs']['model']} layouts", body)
+
+
+def sheet_av701():
+    tiers = list(OPT.keys())
+    rows = [("Positioning", lambda s_: e(s_["tagline"])),
+            ("Front L / C / R", lambda s_: e(s_["lcr"])), ("Surrounds", lambda s_: e(s_["surround"])),
+            ("Overheads", lambda s_: e(s_["top"])), ("Subwoofers", lambda s_: e(f"{s_['sub']} ({s_['sub_layout']})")),
+            ("Processor / outputs used", lambda s_: e(f"{s_['processor']} / {s_['proc']}")),
+            ("Amplification", lambda s_: e(s_["amps"])), ("Projector", lambda s_: e(s_["projector"])),
+            ("Est. peaks at RSP (+room)", lambda s_: f"{s_['spl_low']:.1f}-{s_['spl_high']:.1f} dB"),
+            ("Est. max LFE at RSP", lambda s_: f"{s_['lfe_ff']:.1f} dB"),
+            ("Bass evenness (mean seat SD)", lambda s_: f"{s_['sub_sd']:.2f} dB"),
+            ("Image brightness (est.)", lambda s_: f"{s_['fL']:.0f} fL"),
+            ("Design flags", lambda s_: str(len(s_["warnings"]))),
+            ("Equipment at list (MSRP)", lambda s_: f"<b>{money(s_['msrp_total'])}</b>")]
+    head = "".join(f'<th class="{"cur" if t == D["tier"] else ""}">{e(OPT[t]["label"])}{" (drawn)" if t == D["tier"] else ""}</th>' for t in tiers)
+    trs = "".join(f"<tr><th scope=\"row\">{e(lab)}</th>" + "".join(
+        f'<td class="{"cur" if t == D["tier"] else ""}">{fn(OPT[t])}</td>' for t in tiers) + "</tr>" for lab, fn in rows)
+    comp = f'<div class="tw"><table class="opt"><thead><tr><th></th>{head}</tr></thead><tbody>{trs}</tbody></table></div>'
+    lists = ""
+    for t in tiers:
+        s_ = OPT[t]
+        rr = [[str(b["qty"]), e(b["desc"]), money(b.get("ext_msrp"))] for b in s_["bom"] if b.get("sku")]
+        rr.append(["", "<b>Total at list</b>", f"<b>{money(s_['msrp_total'])}</b>"])
+        lists += f'<div class="cell"><h3>{e(s_["label"])} equipment</h3>{table(["Qty", "Item", "Ext. list"], rr, "plist")}</div>'
+    body = (f'<div class="g2"><div class="cell wide"><h3>Package comparison</h3>{comp}'
+            f'<p class="fine">Same room, seating, screen and speaker positions for every package; products, subwoofer count and electronics change. '
+            f'Each package uses its own recommended subwoofer layout. List prices (MSRP) from the {e(D.get("price_source") or "Savant price list")}; '
+            f'they cover equipment on the Savant list only (screen, seating, wire, treatment and labor are priced separately). '
+            f'Dealer cost and margin are in the private CHT Parts Catalog workbook, not on this sheet. '
+            f'Regenerate the drawings for another package with: python3 design.py --tier good|better|best.</p></div>'
+            f'{lists}</div>')
+    return html_sheet("AV-701", "Good / Better / Best options", body)
+
+
+CSS2 = r"""
+.planner{display:flex;flex-direction:column;gap:14px}
+.pcontrols{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.pcontrols label{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.pcontrols select,.pcontrols button{font:inherit;font-size:14px;color:var(--ink);background:var(--paper2);border:1px solid var(--ink3);padding:6px 10px;border-radius:2px;max-width:100%}
+.pcontrols button{cursor:pointer}
+.pcontrols select:focus-visible,.pcontrols button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pcontrols .hint{font-size:12.5px;color:var(--ink2);flex-basis:100%}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:18px}
+.pcell{min-width:0;display:flex;flex-direction:column;gap:10px}
+#subplan{width:100%;max-width:520px;height:auto;touch-action:none;background:var(--paper2);border:1px solid var(--ink3)}
+#subchart{width:100%;height:auto;background:var(--paper2);border:1px solid var(--ink3)}
+.pmetrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--ink3);border:1px solid var(--ink3)}
+.pmetrics div{background:var(--paper);padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.pmetrics .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.pmetrics .v{font-family:var(--f-display);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.pmetrics .bad{color:var(--no)} .pmetrics .good{color:var(--ok)}
+#subplan .subrect{fill:var(--sub);stroke:var(--ink);stroke-width:.25;cursor:grab}
+#subplan .subrect.bad{fill:var(--no)}
+#subplan .subrect:focus{outline:none;stroke:var(--accent);stroke-width:.6}
+#subplan .wallln{fill:none;stroke:var(--ink);stroke-width:.5}
+#subplan .occ{fill:var(--accent);opacity:.9} #subplan .door{fill:var(--paper2);stroke:var(--ink2);stroke-width:.25}
+#subplan .seatpt{fill:var(--accent)} #subplan .scr{stroke:var(--ink);stroke-width:.6}
+#subplan text,#subchart text{font-family:var(--f-mono);fill:var(--ink2)}
+#subchart .grid{stroke:var(--ink3);stroke-width:.6;opacity:.5} #subchart .seatc{fill:none;stroke:var(--zone);stroke-width:1;opacity:.55}
+#subchart .rspc{fill:none;stroke:var(--accent);stroke-width:2.2}
+table.opt th[scope=row]{color:var(--ink2);font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+table.opt td,table.opt th{white-space:normal;min-width:150px}
+table.opt .cur{background:rgba(255,209,102,.08)}
+table.plist td:first-child,table.plist td:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.plist td:last-child{text-align:right}
+@media print{#subplan,#subchart{background:#fff} .pcontrols{display:none}}
+"""
+
+PLANNER_JS = r"""
+<script>
+(function(){
+  var el=document.getElementById('subdata'); if(!el) return;
+  var D=JSON.parse(el.textContent), W=D.W, L=D.L, H=D.H, c=D.c;
+  var svg=document.getElementById('subplan'), chart=document.getElementById('subchart'), met=document.getElementById('submetrics');
+  var sel=document.getElementById('sublayout'), reset=document.getElementById('subreset');
+  var NS='http://www.w3.org/2000/svg', pad=4, sc=Math.min((100-2*pad)/W,(100-2*pad)/L);
+  svg.setAttribute('viewBox','0 0 '+(W*sc+2*pad).toFixed(2)+' '+(L*sc+2*pad).toFixed(2));
+  function X(x){return pad+x*sc} function Y(y){return pad+y*sc}
+  // modes
+  var modes=[], delta=6.91/D.T60;
+  for(var nx=0;nx<9;nx++)for(var ny=0;ny<11;ny++)for(var nz=0;nz<5;nz++){
+    var f=c/2*Math.sqrt(Math.pow(nx/W,2)+Math.pow(ny/L,2)+Math.pow(nz/H,2)); if(f>250)continue;
+    modes.push([nx,ny,nz,2*Math.PI*f,(nx?0.5:1)*(ny?0.5:1)*(nz?0.5:1)]);}
+  var freqs=[]; for(var i=0;i<=Math.round(24*Math.log2(120/20));i++)freqs.push(20*Math.pow(2,i/24));
+  function psi(m,r){return Math.cos(m[0]*Math.PI*r[0]/W)*Math.cos(m[1]*Math.PI*r[1]/L)*Math.cos(m[2]*Math.PI*r[2]/H)}
+  function press(srcs,r,f){var w=2*Math.PI*f,re=0,im=0;
+    for(var k=0;k<modes.length;k++){var m=modes[k],s=0;for(var j=0;j<srcs.length;j++)s+=psi(m,srcs[j]);
+      var a=s*psi(m,r)/m[4], dr=m[3]*m[3]-w*w, di=2*delta*w, dd=dr*dr+di*di; re+=a*dr/dd; im+=-a*di/dd;}
+    return Math.sqrt(re*re+im*im);}
+  function db(x){return 20*Math.log10(x)}
+  function span(wall){return (wall==='front'||wall==='back')?W:L}
+  function pos(u){var z=D.sub.zc; if(u[0]==='front')return[u[1],0,z]; if(u[0]==='back')return[u[1],L,z]; if(u[0]==='left')return[0,u[1],z]; return[W,u[1],z];}
+  var units=[];
+  function load(id){var lay=D.layouts.filter(function(l){return l.id===id})[0]; if(lay)units=lay.units.map(function(u){return[u[0],u[1]]});}
+  function conflicts(){var out=[];units.forEach(function(u,i){var bad=[];
+      D.occupied.forEach(function(o){ if(o[0]!==u[0])return;
+        if(Math.abs(o[1]-u[1])<(o[3]+D.sub.w)/2+0.05 && Math.abs(o[2]-D.sub.zc)<(o[4]+D.sub.h)/2+0.05) bad.push(o[5]);});
+      units.forEach(function(v,j){ if(j!==i&&v[0]===u[0]&&Math.abs(v[1]-u[1])<D.sub.w+0.05) bad.push('SW'+(j+1));});
+      out.push(bad);});return out;}
+  function draw(){
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    function mk(t,a){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);svg.appendChild(n);return n;}
+    mk('rect',{x:X(0),y:Y(0),width:W*sc,height:L*sc,'class':'wallln'});
+    mk('line',{x1:X(D.screen[0]),y1:Y(D.screen[2]),x2:X(D.screen[1]),y2:Y(D.screen[2]),'class':'scr'});
+    var t=mk('text',{x:X(W/2),y:Y(D.screen[2])+3.2,'text-anchor':'middle','font-size':2.2}); t.textContent='SCREEN';
+    mk('rect',{x:X(D.door[0]),y:Y(L)-0.6,width:D.door[1]*sc,height:1.2,'class':'door'});
+    D.occupied.forEach(function(o){ if(o[5]==='door')return; var w=o[3]*sc;
+      if(o[0]==='front')mk('rect',{x:X(o[1])-w/2,y:Y(0)-0.6,width:w,height:1.2,'class':'occ'});
+      if(o[0]==='back')mk('rect',{x:X(o[1])-w/2,y:Y(L)-0.6,width:w,height:1.2,'class':'occ'});
+      if(o[0]==='left')mk('rect',{x:X(0)-0.6,y:Y(o[1])-w/2,width:1.2,height:w,'class':'occ'});
+      if(o[0]==='right')mk('rect',{x:X(W)-0.6,y:Y(o[1])-w/2,width:1.2,height:w,'class':'occ'});});
+    D.ears.forEach(function(e,i){mk('circle',{cx:X(e[0]),cy:Y(e[1]),r:0.9,'class':'seatpt'});});
+    var cf=conflicts();
+    units.forEach(function(u,i){var w=D.sub.w*sc, d=2.4, r;
+      var cls='subrect'+(cf[i].length?' bad':'');
+      if(u[0]==='front')r=mk('rect',{x:X(u[1])-w/2,y:Y(0)-d/2,width:w,height:d});
+      else if(u[0]==='back')r=mk('rect',{x:X(u[1])-w/2,y:Y(L)-d/2,width:w,height:d});
+      else if(u[0]==='left')r=mk('rect',{x:X(0)-d/2,y:Y(u[1])-w/2,width:d,height:w});
+      else r=mk('rect',{x:X(W)-d/2,y:Y(u[1])-w/2,width:d,height:w});
+      r.setAttribute('class',cls); r.setAttribute('tabindex','0'); r.setAttribute('role','button');
+      r.setAttribute('aria-label','Subwoofer '+(i+1)+' on '+u[0]+' wall at '+u[1].toFixed(2)+' m'+(cf[i].length?', conflicts with '+cf[i].join(', '):''));
+      r.dataset.i=i;
+      var lab=mk('text',{x:(u[0]==='left'?X(0)+3:u[0]==='right'?X(W)-3:X(u[1])),y:(u[0]==='front'?Y(0)+4.5:u[0]==='back'?Y(L)-3:Y(u[1])+0.8),
+        'text-anchor':(u[0]==='left'?'start':u[0]==='right'?'end':'middle'),'font-size':2.4}); lab.textContent='SW'+(i+1);});
+  }
+  function evaluate(){
+    var srcs=[]; units.forEach(function(u){var p=pos(u); srcs.push([p[0],p[1],0.15+D.sub.h*0.25],[p[0],p[1],0.15+D.sub.h*0.75]);});
+    var curves=D.ears.map(function(){return[]}), rspc=[], sds=[];
+    freqs.forEach(function(f){var lv=D.ears.map(function(e){return db(press(srcs,e,f))});
+      lv.forEach(function(v,i){curves[i].push(v)}); rspc.push(db(press(srcs,D.rsp,f)));
+      if(f<=100){var m=lv.reduce(function(a,b){return a+b},0)/lv.length; sds.push(Math.sqrt(lv.reduce(function(a,b){return a+(b-m)*(b-m)},0)/lv.length));}});
+    var amp=0; units.forEach(function(u){var p=pos(u),d=Math.max(Math.hypot(p[0]-D.rsp[0],p[1]-D.rsp[1],p[2]-D.rsp[2]),0.5); amp+=Math.pow(10,(D.sub.lmax-db(d))/20);});
+    var mean=sds.reduce(function(a,b){return a+b},0)/sds.length, mx=Math.max.apply(null,sds), cf=conflicts(), nbad=cf.filter(function(x){return x.length}).length;
+    met.innerHTML='<div><span class="k">Mean seat SD</span><span class="v '+(mean<3.2?'good':mean>4.5?'bad':'')+'">'+mean.toFixed(2)+' dB</span></div>'+
+      '<div><span class="k">Worst-frequency SD</span><span class="v">'+mx.toFixed(1)+' dB</span></div>'+
+      '<div><span class="k">Est. max LFE at RSP</span><span class="v">'+(units.length?db(amp).toFixed(1):'-')+' dB</span></div>'+
+      '<div><span class="k">'+units.length+' x '+D.sub.model+'</span><span class="v '+(nbad?'bad':'good')+'">'+(nbad?nbad+' conflict'+(nbad>1?'s':''):'Fits')+'</span></div>';
+    // chart
+    while(chart.firstChild)chart.removeChild(chart.firstChild);
+    var x0=46,x1=508,y0=14,y1=268, all=[].concat.apply(rspc,curves), mxl=Math.max.apply(null,all), top=Math.ceil(mxl/5)*5, bot=top-40;
+    function cx(f){return x0+(Math.log(f/20)/Math.log(120/20))*(x1-x0)} function cy(v){return y0+(top-Math.max(bot,Math.min(top,v)))/(top-bot)*(y1-y0)}
+    function mk(t,a,txt){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);if(txt)n.textContent=txt;chart.appendChild(n);return n;}
+    [20,30,40,50,60,80,100,120].forEach(function(f){mk('line',{x1:cx(f),y1:y0,x2:cx(f),y2:y1,'class':'grid'});mk('text',{x:cx(f),y:y1+16,'text-anchor':'middle','font-size':11},f+'');});
+    for(var v=bot;v<=top;v+=10){mk('line',{x1:x0,y1:cy(v),x2:x1,y2:cy(v),'class':'grid'});mk('text',{x:x0-6,y:cy(v)+4,'text-anchor':'end','font-size':11},(v-top)+'');}
+    mk('text',{x:x1,y:y1+30,'text-anchor':'end','font-size':11},'Hz');
+    mk('text',{x:x0+6,y:y0+12,'text-anchor':'start','font-size':11},'dB re max');
+    function path(arr){return arr.map(function(v,i){return(i?'L':'M')+cx(freqs[i]).toFixed(1)+' '+cy(v).toFixed(1)}).join(' ')}
+    curves.forEach(function(cv){mk('path',{d:path(cv),'class':'seatc'})});
+    mk('path',{d:path(rspc),'class':'rspc'});
+  }
+  var drag=null;
+  function toRoom(ev){var pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; var p=pt.matrixTransform(svg.getScreenCTM().inverse()); return[(p.x-pad)/sc,(p.y-pad)/sc];}
+  function snap(xy){var x=Math.max(0,Math.min(W,xy[0])), y=Math.max(0,Math.min(L,xy[1]));
+    var d={front:y,back:L-y,left:x,right:W-x}, wall=Object.keys(d).sort(function(a,b){return d[a]-d[b]})[0];
+    var u=(wall==='front'||wall==='back')?x:y, half=D.sub.w/2; u=Math.max(half,Math.min(span(wall)-half,u)); return[wall,Math.round(u*100)/100];}
+  var pending=false; function later(){ if(pending)return; pending=true; requestAnimationFrame(function(){pending=false; evaluate();}); }
+  svg.addEventListener('pointerdown',function(ev){var t=ev.target; if(!t.dataset||t.dataset.i===undefined)return; drag=+t.dataset.i; svg.setPointerCapture(ev.pointerId); ev.preventDefault();});
+  svg.addEventListener('pointermove',function(ev){ if(drag===null)return; units[drag]=snap(toRoom(ev)); sel.value='custom'; draw(); later();});
+  svg.addEventListener('pointerup',function(ev){ if(drag===null)return; var i=drag; drag=null; draw(); evaluate(); var n=svg.querySelector('[data-i="'+i+'"]'); if(n)n.focus();});
+  svg.addEventListener('keydown',function(ev){var t=ev.target; if(!t.dataset||t.dataset.i===undefined)return; var i=+t.dataset.i, u=units[i], step=0.1;
+    var k=ev.key, dir=0; if(k==='ArrowRight'||k==='ArrowDown')dir=1; else if(k==='ArrowLeft'||k==='ArrowUp')dir=-1; else return;
+    ev.preventDefault(); var half=D.sub.w/2; u[1]=Math.round(Math.max(half,Math.min(span(u[0])-half,u[1]+dir*step))*100)/100; sel.value='custom';
+    draw(); evaluate(); var n=svg.querySelector('[data-i="'+i+'"]'); if(n)n.focus();});
+  sel.addEventListener('change',function(){ if(sel.value==='custom')return; load(sel.value); draw(); evaluate();});
+  reset.addEventListener('click',function(){ sel.value=D.chosen; load(D.chosen); draw(); evaluate();});
+  load(D.chosen); draw(); evaluate();
+})();
+</script>
+"""
 
 
 CSS = r"""
@@ -876,13 +1091,15 @@ def main():
         sheets.append(f'<section class="sheet" id="{sh.number.lower()}"><div class="svgwrap">{sh.svg()}</div></section>')
     sheets.append(sheet_av501())
     sheets.append(sheet_av601())
-    nav = "".join(f'<a href="#{n}">{n.upper()}</a>' for n in
-                  ("t-001", "a-101", "a-102", "a-201", "a-202", "a-301", "av-501", "av-601"))
+    sheets.append(sheet_av602())
+    sheets.append(sheet_av701())
+    nav = "".join(f'<a href="#{n.lower()}">{n}</a>' for n, _ in SHEET_INDEX)
     doc = (f'<title>JBL 24x18 Theater Drawings</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
            f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
            f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">'
-           f'<style>{CSS}</style>\n<div class="wrap"><div class="topbar"><h1>JBL Synthesis Theater, 24 × 18: concept drawing set</h1>'
+           f'<style>{CSS}{CSS2}</style>\n<div class="wrap"><div class="topbar"><h1>JBL Synthesis Theater, 24 × 18: concept drawing set</h1>'
            f'<nav aria-label="Sheets">{nav}</nav></div>{"".join(sheets)}</div>')
+    doc += PLANNER_JS
     out = os.path.join(HERE, "out", "drawing-set.html")
     with open(out, "w") as f:
         f.write(doc)

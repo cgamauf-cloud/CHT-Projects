@@ -1,0 +1,4 @@
+# Private pricing data (Savant integrator price lists, dealer costs) - never commit
+private/
+__pycache__/
+*.pyc

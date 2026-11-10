@@ -28,8 +28,18 @@ To print the PDF, use any headless Chromium with `printBackground`, 17 × 11 in.
   - SCL-2 for L/C/R
   - SCL-3 for surrounds and overheads (**JBL approval for ceiling use and the SCL-3 grille size need verifying**)
   - SSW-3 subwoofers
-  - SDP-58 processor
-  - SDA-7120 amplifiers
-- JVC NZ8 as the example projector.
+  - Rev A used an SDP-58 processor, SDA-7120 amps and a JVC NZ8. These are not on the Savant store, so Rev B replaces them (see below).
 
 Product data, placement windows and absorption coefficients come from secondary sources. AV-601 lists each one that needs verifying. This is a concept design, not for construction.
+
+## Rev B: Savant-priced packages and the subwoofer planner
+
+- **Packages:** `catalog/packages.py` defines **Good / Better / Best** using products on the Savant store:
+  - **Good:** SCL-6/7/8, SSW-4, SDR-38, Sony XW5100.
+  - **Better:** SCL-2/3, SSW-3, SDP-60 + SMA amps, Sony XW6100.
+  - **Best:** SCL-1/2/3, SSW-1, SDP-80, Sony XW8100.
+
+  Speaker positions are the same for every package. `design.py` evaluates all three. Sheet AV-701 compares them, and `--tier good|better|best` picks which one is drawn.
+- **Subwoofer layouts:** `design.py --list-subs` lists the common layouts (front pair, corners, side midpoints, wall midpoints, side ¼/¾, front/back ¼/¾, diagonal, custom). The engine rejects any layout that collides with a speaker or the door. Use `--subs <id>` to force one, or set `P['subs_custom']` for your own positions.
+- **Interactive planner:** sheet AV-602 lets you pick a layout or drag the subs along the walls (or move them with the arrow keys). It recomputes the seat-by-seat bass response, the evenness score and the LFE estimate live, using the same modal model as the engine.
+- **Pricing:** list prices come from the private Savant import (see `tools/pricing/README.md`). Dealer cost appears only in the private parts catalog workbook.

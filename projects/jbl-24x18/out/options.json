@@ -1,0 +1,704 @@
+{
+ "price_source": "Savant integrator price list 20261103",
+ "packages": {
+  "good": {
+   "tier": "good",
+   "label": "Good",
+   "tagline": "Value JBL Synthesis in-wall system, AVR-based",
+   "lcr": "SCL-6",
+   "surround": "SCL-7",
+   "top": "SCL-8",
+   "sub": "4 x SSW-4",
+   "sub_layout": "Side walls at 1/4 and 3/4 length",
+   "processor": "SDR-38",
+   "amps": "1 x SMA-4750, 2 x SDA-1700",
+   "projector": "VPL-XW5100ES",
+   "spl_low": 93.95545792629132,
+   "spl_high": 101.86783996554243,
+   "lfe_ff": 108.5364845807477,
+   "sub_sd": 2.771972702320158,
+   "fL": 33.46597222222222,
+   "throw_ok": true,
+   "shift": 65.99999999999999,
+   "proc": "13/16",
+   "msrp_total": 52241.78999999999,
+   "bom": [
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-6",
+     "sku": "JBLSCL6",
+     "desc": "JBL Synthesis SCL-6 quad 5.25in in-wall compression driver",
+     "qty": 3,
+     "note": "LCR",
+     "msrp": 1814.95,
+     "ext_msrp": 5444.85,
+     "status": "Active"
+    },
+    {
+     "role": "Brackets",
+     "model": "JBLWB54",
+     "sku": "JBLWB54",
+     "desc": "JBL Synthesis rough-in bracket for SCL-6",
+     "qty": 3,
+     "note": "",
+     "msrp": 74.95,
+     "ext_msrp": 224.85000000000002,
+     "status": "Active"
+    },
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-7",
+     "sku": "JBLSCL7",
+     "desc": "JBL Synthesis SCL-7 dual 5.25in angled in-wall",
+     "qty": 4,
+     "note": "surround",
+     "msrp": 1209.95,
+     "ext_msrp": 4839.8,
+     "status": "Active"
+    },
+    {
+     "role": "Brackets",
+     "model": "JBLWB52",
+     "sku": "JBLWB52",
+     "desc": "JBL Synthesis rough-in bracket for SCL-7",
+     "qty": 4,
+     "note": "",
+     "msrp": 69.95,
+     "ext_msrp": 279.8,
+     "status": "Active"
+    },
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-8",
+     "sku": "JBLSCL8",
+     "desc": "JBL Synthesis SCL-8 5.25in angled in-ceiling",
+     "qty": 4,
+     "note": "top",
+     "msrp": 1209.95,
+     "ext_msrp": 4839.8,
+     "status": "Active"
+    },
+    {
+     "role": "Subwoofers",
+     "model": "SSW-4",
+     "sku": "JBLSSW4",
+     "desc": "JBL Synthesis SSW-4 dual 8in passive in-wall subwoofer",
+     "qty": 4,
+     "note": "Side walls at 1/4 and 3/4 length",
+     "msrp": 1209.95,
+     "ext_msrp": 4839.8,
+     "status": "Active"
+    },
+    {
+     "role": "Processing",
+     "model": "SDR-38",
+     "sku": "JBLSDR38AM",
+     "desc": "JBL Synthesis SDR-38 16-ch AV receiver (7 x 100 W)",
+     "qty": 1,
+     "note": "",
+     "msrp": 8550,
+     "ext_msrp": 8550,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SMA-4750",
+     "sku": "JBLSMA4750AM",
+     "desc": "JBL Synthesis SMA-4750 4-ch Class D amplifier",
+     "qty": 1,
+     "note": "4 channels used of 4",
+     "msrp": 4999,
+     "ext_msrp": 4999,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SDA-1700",
+     "sku": "JBLSDA1700AM",
+     "desc": "JBL Synthesis SDA-1700 2-ch subwoofer amplifier",
+     "qty": 2,
+     "note": "4 channels used of 4",
+     "msrp": 1449.95,
+     "ext_msrp": 2899.9,
+     "status": "Active"
+    },
+    {
+     "role": "Video",
+     "model": "VPL-XW5100ES",
+     "sku": "VPL-XW5100ES",
+     "desc": "Sony VPL-XW5100ES 4K SXRD laser projector",
+     "qty": 1,
+     "note": "",
+     "msrp": 9999.99,
+     "ext_msrp": 9999.99,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "K0217-0000",
+     "sku": "K0217-0000",
+     "desc": "Kaleidescape Strato C movie player",
+     "qty": 1,
+     "note": "",
+     "msrp": 2995,
+     "ext_msrp": 2995,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "PKG-S2REM-41",
+     "sku": "PKG-S2REM-41",
+     "desc": "Savant S2 host with Pro Remote X2",
+     "qty": 1,
+     "note": "",
+     "msrp": 900,
+     "ext_msrp": 900,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "SX-1120-RT",
+     "sku": "SX-1120-RT",
+     "desc": "SurgeX rack surge eliminator 1RU 20 A",
+     "qty": 1,
+     "note": "",
+     "msrp": 1429,
+     "ext_msrp": 1429,
+     "status": "Active"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustically transparent screen, 120in 16:9 fixed frame",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Theater recliners",
+     "qty": 8,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Speaker cable (12/14/10 AWG per AV-501 schedule)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Back boxes / brackets where JBL bracket not on Savant list",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustic treatment package (panels, cloud, bass traps, diffusion)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Equipment rack, ventilation, rack accessories",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Labor: pre-wire, trim-out, calibration",
+     "qty": 1,
+     "note": "price separately"
+    }
+   ],
+   "warnings": [
+    "Front-row vertical angle to image top 16.3 deg (>15 deg guidance [verify]).",
+    "Standing 1.80 m person on riser reaches 2.26 m; beam bottom there 2.19 m -> casts shadow when standing.",
+    "Subwoofers (4 x SSW-4): est. free-field max 108.5 dB vs LFE target 115 dB; relies on low-frequency room gain (not modelled).",
+    "Treated mid-band RT60 0.18 s is well below the ~0.26 s small-room reference: risk of an over-damped room. Trade some absorption for diffusion (e.g. rear half of side zones).",
+    "125 Hz RT60 0.42 s vs mid-band 0.18 s: add low-frequency absorption.",
+    "Axial mode coincidence near 62.5 Hz: [0, 0, 1] and [2, 0, 0] (room ratios).",
+    "Axial mode coincidence near 93.8 Hz: [0, 4, 0] and [3, 0, 0] (room ratios).",
+    "Axial mode coincidence near 125.0 Hz: [0, 0, 2] and [4, 0, 0] (room ratios).",
+    "Level: est. 94.0-101.9 dB peaks at the RSP with this package; below 105 dB reference on L, C, R, Lss, Rss, Lrs, Rrs, Ltf, Rtf, Ltr, Rtr."
+   ]
+  },
+  "better": {
+   "tier": "better",
+   "label": "Better",
+   "tagline": "Reference in-wall LCR, separates, four in-wall subs",
+   "lcr": "SCL-2",
+   "surround": "SCL-3",
+   "top": "SCL-3",
+   "sub": "4 x SSW-3",
+   "sub_layout": "Side walls at 1/4 and 3/4 length",
+   "processor": "SDP-60",
+   "amps": "2 x SMA-4750, 1 x SMA-8300",
+   "projector": "VPL-XW6100ES",
+   "spl_low": 105.75000052831967,
+   "spl_high": 108.5596276148755,
+   "lfe_ff": 114.44362469468783,
+   "sub_sd": 2.9623807771557797,
+   "fL": 41.071875,
+   "throw_ok": true,
+   "shift": 79.37020454223472,
+   "proc": "13/16",
+   "msrp_total": 115419.79,
+   "bom": [
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-2",
+     "sku": "JBLSCL-2",
+     "desc": "JBL Synthesis SCL-2 2.5-way in-wall LCR",
+     "qty": 3,
+     "note": "LCR",
+     "msrp": 7259.95,
+     "ext_msrp": 21779.85,
+     "status": "Active"
+    },
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-3",
+     "sku": "SCL-3",
+     "desc": "JBL Synthesis SCL-3 dual 5.25in 2-way in-wall",
+     "qty": 8,
+     "note": "surround + top",
+     "msrp": 3629.95,
+     "ext_msrp": 29039.6,
+     "status": "Active"
+    },
+    {
+     "role": "Brackets",
+     "model": "SCL-3PCB",
+     "sku": "SCL-3PCB",
+     "desc": "JBL Synthesis pre-construction bracket for SCL-3",
+     "qty": 8,
+     "note": "",
+     "msrp": 129.95,
+     "ext_msrp": 1039.6,
+     "status": "Active"
+    },
+    {
+     "role": "Subwoofers",
+     "model": "SSW-3",
+     "sku": "JBLSSW3BLK",
+     "desc": "JBL Synthesis SSW-3 dual 10in passive in-wall subwoofer",
+     "qty": 4,
+     "note": "Side walls at 1/4 and 3/4 length",
+     "msrp": 3024.95,
+     "ext_msrp": 12099.8,
+     "status": "Active"
+    },
+    {
+     "role": "Processing",
+     "model": "SDP-60",
+     "sku": "JBLSDP60AM",
+     "desc": "JBL Synthesis SDP-60 16-ch AV processor",
+     "qty": 1,
+     "note": "",
+     "msrp": 6999.95,
+     "ext_msrp": 6999.95,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SMA-4750",
+     "sku": "JBLSMA4750AM",
+     "desc": "JBL Synthesis SMA-4750 4-ch Class D amplifier",
+     "qty": 2,
+     "note": "7 channels used of 8",
+     "msrp": 4999,
+     "ext_msrp": 9998,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SMA-8300",
+     "sku": "JBLSMA8300AM",
+     "desc": "JBL Synthesis SMA-8300 8-ch Class D amplifier",
+     "qty": 1,
+     "note": "8 channels used of 8",
+     "msrp": 5999,
+     "ext_msrp": 5999,
+     "status": "Active"
+    },
+    {
+     "role": "Video",
+     "model": "VPL-XW6100ES",
+     "sku": "VPL-XW6100ES",
+     "desc": "Sony VPL-XW6100ES 4K SXRD laser projector",
+     "qty": 1,
+     "note": "",
+     "msrp": 18999.99,
+     "ext_msrp": 18999.99,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "K0701-0000",
+     "sku": "K0701-0000",
+     "desc": "Kaleidescape Strato V movie player",
+     "qty": 1,
+     "note": "",
+     "msrp": 3995,
+     "ext_msrp": 3995,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "PKG-S2REM-41",
+     "sku": "PKG-S2REM-41",
+     "desc": "Savant S2 host with Pro Remote X2",
+     "qty": 1,
+     "note": "",
+     "msrp": 900,
+     "ext_msrp": 900,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "ITP-E8000V3B-00",
+     "sku": "ITP-E8000V3B-00",
+     "desc": "Savant Touch 8 control screen, black",
+     "qty": 1,
+     "note": "",
+     "msrp": 2400,
+     "ext_msrp": 2400,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "SEQ",
+     "sku": "SEQ",
+     "desc": "SurgeX sequencing surge eliminator 2RU 20 A",
+     "qty": 1,
+     "note": "",
+     "msrp": 2169,
+     "ext_msrp": 2169,
+     "status": "Active"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustically transparent screen, 120in 16:9 fixed frame",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Theater recliners",
+     "qty": 8,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Speaker cable (12/14/10 AWG per AV-501 schedule)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Back boxes / brackets where JBL bracket not on Savant list",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustic treatment package (panels, cloud, bass traps, diffusion)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Equipment rack, ventilation, rack accessories",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Labor: pre-wire, trim-out, calibration",
+     "qty": 1,
+     "note": "price separately"
+    }
+   ],
+   "warnings": [
+    "Front-row vertical angle to image top 16.3 deg (>15 deg guidance [verify]).",
+    "Standing 1.80 m person on riser reaches 2.26 m; beam bottom there 2.24 m -> casts shadow when standing.",
+    "Subwoofers (4 x SSW-3): est. free-field max 114.4 dB vs LFE target 115 dB; relies on low-frequency room gain (not modelled).",
+    "Treated mid-band RT60 0.18 s is well below the ~0.26 s small-room reference: risk of an over-damped room. Trade some absorption for diffusion (e.g. rear half of side zones).",
+    "125 Hz RT60 0.42 s vs mid-band 0.18 s: add low-frequency absorption.",
+    "Axial mode coincidence near 62.5 Hz: [0, 0, 1] and [2, 0, 0] (room ratios).",
+    "Axial mode coincidence near 93.8 Hz: [0, 4, 0] and [3, 0, 0] (room ratios).",
+    "Axial mode coincidence near 125.0 Hz: [0, 0, 2] and [4, 0, 0] (room ratios)."
+   ]
+  },
+  "best": {
+   "tier": "best",
+   "label": "Best",
+   "tagline": "SCL-1 compression-driver LCR, SSW-1 dual-15 subs, 36-ch processing",
+   "lcr": "SCL-1",
+   "surround": "SCL-2",
+   "top": "SCL-3",
+   "sub": "4 x SSW-1",
+   "sub_layout": "Side walls at 1/4 and 3/4 length",
+   "processor": "SDP-80",
+   "amps": "3 x SMA-4750, 1 x SMA-8300",
+   "projector": "VPL-XW8100ES",
+   "spl_low": 106.48758306404476,
+   "spl_high": 110.0966274183458,
+   "lfe_ff": 126.434027052984,
+   "sub_sd": 2.900667689892678,
+   "fL": 51.72013888888888,
+   "throw_ok": true,
+   "shift": 79.37020454223472,
+   "proc": "13/36",
+   "msrp_total": 259283.99,
+   "bom": [
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-1",
+     "sku": "JBLSCL1BLK",
+     "desc": "JBL Synthesis SCL-1 dual 12in 2-way custom LCR",
+     "qty": 3,
+     "note": "LCR",
+     "msrp": 18149.95,
+     "ext_msrp": 54449.850000000006,
+     "status": "Active"
+    },
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-2",
+     "sku": "JBLSCL-2",
+     "desc": "JBL Synthesis SCL-2 2.5-way in-wall LCR",
+     "qty": 4,
+     "note": "surround",
+     "msrp": 7259.95,
+     "ext_msrp": 29039.8,
+     "status": "Active"
+    },
+    {
+     "role": "Loudspeakers",
+     "model": "SCL-3",
+     "sku": "SCL-3",
+     "desc": "JBL Synthesis SCL-3 dual 5.25in 2-way in-wall",
+     "qty": 4,
+     "note": "top",
+     "msrp": 3629.95,
+     "ext_msrp": 14519.8,
+     "status": "Active"
+    },
+    {
+     "role": "Brackets",
+     "model": "SCL-3PCB",
+     "sku": "SCL-3PCB",
+     "desc": "JBL Synthesis pre-construction bracket for SCL-3",
+     "qty": 4,
+     "note": "",
+     "msrp": 129.95,
+     "ext_msrp": 519.8,
+     "status": "Active"
+    },
+    {
+     "role": "Subwoofers",
+     "model": "SSW-1",
+     "sku": "JBLSSW1BLK",
+     "desc": "JBL Synthesis SSW-1 dual 15in passive subwoofer",
+     "qty": 4,
+     "note": "Side walls at 1/4 and 3/4 length",
+     "msrp": 9074.95,
+     "ext_msrp": 36299.8,
+     "status": "Active"
+    },
+    {
+     "role": "Processing",
+     "model": "SDP-80",
+     "sku": "JBLSDP80AM",
+     "desc": "JBL Synthesis SDP-80 36-ch preamp/processor",
+     "qty": 1,
+     "note": "",
+     "msrp": 44999.95,
+     "ext_msrp": 44999.95,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SMA-4750",
+     "sku": "JBLSMA4750AM",
+     "desc": "JBL Synthesis SMA-4750 4-ch Class D amplifier",
+     "qty": 3,
+     "note": "11 channels used of 12",
+     "msrp": 4999,
+     "ext_msrp": 14997,
+     "status": "Active"
+    },
+    {
+     "role": "Amplification",
+     "model": "SMA-8300",
+     "sku": "JBLSMA8300AM",
+     "desc": "JBL Synthesis SMA-8300 8-ch Class D amplifier",
+     "qty": 1,
+     "note": "8 channels used of 8",
+     "msrp": 5999,
+     "ext_msrp": 5999,
+     "status": "Active"
+    },
+    {
+     "role": "Video",
+     "model": "VPL-XW8100ES",
+     "sku": "VPL-XW8100ES",
+     "desc": "Sony VPL-XW8100ES 4K SXRD laser projector",
+     "qty": 1,
+     "note": "",
+     "msrp": 35999.99,
+     "ext_msrp": 35999.99,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "K0880-0000",
+     "sku": "K0880-0000",
+     "desc": "Kaleidescape Strato K movie player",
+     "qty": 1,
+     "note": "",
+     "msrp": 4995,
+     "ext_msrp": 4995,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "K0110-0030",
+     "sku": "K0110-0030",
+     "desc": "Kaleidescape Compact Terra movie server 30 TB",
+     "qty": 1,
+     "note": "",
+     "msrp": 11995,
+     "ext_msrp": 11995,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "PKG-S2REM-41",
+     "sku": "PKG-S2REM-41",
+     "desc": "Savant S2 host with Pro Remote X2",
+     "qty": 1,
+     "note": "",
+     "msrp": 900,
+     "ext_msrp": 900,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "ITP-E8000V3B-00",
+     "sku": "ITP-E8000V3B-00",
+     "desc": "Savant Touch 8 control screen, black",
+     "qty": 1,
+     "note": "",
+     "msrp": 2400,
+     "ext_msrp": 2400,
+     "status": "Active"
+    },
+    {
+     "role": "Sources / control / power",
+     "model": "SEQ",
+     "sku": "SEQ",
+     "desc": "SurgeX sequencing surge eliminator 2RU 20 A",
+     "qty": 1,
+     "note": "",
+     "msrp": 2169,
+     "ext_msrp": 2169,
+     "status": "Active"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustically transparent screen, 120in 16:9 fixed frame",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Theater recliners",
+     "qty": 8,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Speaker cable (12/14/10 AWG per AV-501 schedule)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Back boxes / brackets where JBL bracket not on Savant list",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Acoustic treatment package (panels, cloud, bass traps, diffusion)",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Equipment rack, ventilation, rack accessories",
+     "qty": 1,
+     "note": "price separately"
+    },
+    {
+     "role": "Not on Savant list",
+     "model": "-",
+     "sku": null,
+     "desc": "Labor: pre-wire, trim-out, calibration",
+     "qty": 1,
+     "note": "price separately"
+    }
+   ],
+   "warnings": [
+    "Front-row vertical angle to image top 16.3 deg (>15 deg guidance [verify]).",
+    "Standing 1.80 m person on riser reaches 2.26 m; beam bottom there 2.24 m -> casts shadow when standing.",
+    "Treated mid-band RT60 0.18 s is well below the ~0.26 s small-room reference: risk of an over-damped room. Trade some absorption for diffusion (e.g. rear half of side zones).",
+    "125 Hz RT60 0.42 s vs mid-band 0.18 s: add low-frequency absorption.",
+    "Axial mode coincidence near 62.5 Hz: [0, 0, 1] and [2, 0, 0] (room ratios).",
+    "Axial mode coincidence near 93.8 Hz: [0, 4, 0] and [3, 0, 0] (room ratios).",
+    "Axial mode coincidence near 125.0 Hz: [0, 0, 2] and [4, 0, 0] (room ratios)."
+   ]
+  }
+ }
+}
