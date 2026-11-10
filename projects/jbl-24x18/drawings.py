@@ -10,6 +10,10 @@ and drawn at true architectural scale when printed on 11x17 (ANSI B) paper.
 Run: python3 -I drawings.py   (after design.py)
 """
 import html
+import sys as _sys
+import os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from features import (BRAND, price_span, svg_price, model_prices, toolbar, sheet_budget, sheet_3d, CSS3, FEATURES_JS)
 import json
 import math
 import os
@@ -117,7 +121,7 @@ class Sheet:
         x0 = 1400
         tb.append(f'<line x1="{x0}" y1="35" x2="{x0}" y2="1065" class="frame2"/>')
         tb.append(f'<text x="{x0+132}" y="98" class="brand" text-anchor="middle">CHT</text>')
-        tb.append(f'<text x="{x0+132}" y="122" class="tbs" text-anchor="middle">CUSTOM HOME THEATER DESIGN</text>')
+        tb.append(f'<text x="{x0+132}" y="122" class="tbs" text-anchor="middle">CHICAGOLAND HOME THEATER</text>')
         rows = [("PROJECT", p["project"].replace("CHT Theater Concept: ", "")), ("PROJECT NO.", p["project_no"]),
                 ("ROOM", f"{p['room']['length_ft']}'-0\" L x {p['room']['width_ft']}'-0\" W x {p['room']['height_ft']}'-0\" H"),
                 ("FORMAT", f"Dolby Atmos {D['layout']} / {D['system']['sub_units']} subwoofers"),
@@ -168,6 +172,11 @@ CAT = D["catalog"]
 SUBM = D["subs"]["model"]
 PKG = D["package"]
 OPT = D["options"]
+MP = model_prices(D)
+
+
+def pcell(v, hidden_text="&middot;"):
+    return price_span(v) + f'<span class="noprice">{hidden_text}</span>'
 SEAT_W, SEAT_FRONT, SEAT_BACK, FOOT = 0.80, D["inputs"]["seating"]["seat_front"], D["inputs"]["seating"]["seat_back"], D["inputs"]["seating"]["footrest"]
 
 
@@ -192,7 +201,7 @@ def plan_sheet(number, title, rcp=False):
     if not rcp:
         sh.line(X(dx0 + dw), Y(L), X(dx0 + dw), Y(L) - dw * s, "ln")
         sh.path(f"M {X(dx0):.1f} {Y(L):.1f} A {dw*s:.1f} {dw*s:.1f} 0 0 1 {X(dx0+dw):.1f} {Y(L)-dw*s:.1f}", "thin")
-        sh.text(X(dx0) - 6, Y(L) - 30, "36\" SEALED DOOR", "tiny", anchor="end")
+        sh.text(X(dx0 + dw / 2), Y(L) - dw * s - 8, "36\" SEALED DOOR", "tiny")
     sh.text(X(W) + t + 10, Y(L) + t - 4, "EQUIPMENT ROOM / RACK BEYOND", "tiny", anchor="start")
 
     if not rcp:
@@ -243,6 +252,7 @@ def plan_sheet(number, title, rcp=False):
         sh.circle(X(lx), Y(ly) + 6, 5, "ln")
         sh.text(X(lx + 1.15), Y(ly + 0.2), "PROJECTOR", "small", anchor="start")
         sh.text(X(lx + 1.15), Y(ly + 0.2) + 16, "CEILING MOUNT", "tiny", anchor="start")
+        sh.add(svg_price(X(lx + 1.15), Y(ly + 0.2) + 34, MP.get(PJ["model"]), anchor="start"))
         sh.line(X(lx + bw / 2) + 2, Y(ly + 0.18), X(lx + 1.12), Y(ly + 0.18), "leader")
         sh.line(X(lx), Y(ly), X(SC["x0"]), Y(SC["y"]), "beam")
         sh.line(X(lx), Y(ly), X(SC["x1"]), Y(SC["y"]), "beam")
@@ -262,14 +272,17 @@ def plan_sheet(number, title, rcp=False):
             sh.rect(X(p[0] - gw / 2), Y(0) - dep * s, gw * s, dep * s, "spk" if not rcp else "spkghost")
             if not rcp:
                 sh.tag(X(p[0]), Y(0) - t - 22, c["ch"])
+                sh.add(svg_price(X(p[0]), Y(0) + 18, MP.get(c["model"])))
         elif c["mount"] == "Left wall":
             sh.rect(X(0) - dep * s, Y(p[1] - gw / 2), dep * s, gw * s, "spk" if not rcp else "spkghost")
             if not rcp:
                 sh.tag(X(0) - t - 30, Y(p[1]), c["ch"])
+                sh.add(svg_price(X(0) - t - 30, Y(p[1]) + 26, MP.get(c["model"])))
         elif c["mount"] == "Right wall":
             sh.rect(X(W), Y(p[1] - gw / 2), dep * s, gw * s, "spk" if not rcp else "spkghost")
             if not rcp:
                 sh.tag(X(W) + t + 30, Y(p[1]), c["ch"])
+                sh.add(svg_price(X(W) + t + 30, Y(p[1]) + 26, MP.get(c["model"])))
         elif c["mount"] == "Back wall":
             sh.rect(X(p[0] - gw / 2), Y(L), gw * s, dep * s, "spk" if not rcp else "spkghost")
             if not rcp:
@@ -279,6 +292,7 @@ def plan_sheet(number, title, rcp=False):
             cls = "spk" if rcp else "spkabove"
             sh.rect(X(p[0] - gw2 / 2), Y(p[1] - gh2 / 2), gw2 * s, gh2 * s, cls)
             sh.tag(X(p[0]), Y(p[1] + gh2 / 2) + 20, c["ch"], "tag" if rcp else "tagabove")
+            sh.add(svg_price(X(p[0]), Y(p[1] + gh2 / 2) + 46, MP.get(c["model"])))
     # subwoofers
     sw_w, sw_h = CAT[SUBM]["grille_wh"]
     sw_d = CAT[SUBM]["depth"]
@@ -288,18 +302,22 @@ def plan_sheet(number, title, rcp=False):
             sh.rect(X(0) - sw_d * s, Y(pos[1] - sw_w / 2), sw_d * s, sw_w * s, "sub" if not rcp else "spkghost")
             if not rcp:
                 sh.tag(X(0) - t - 34, Y(pos[1]), lab, "tagsub")
+                sh.add(svg_price(X(0) - t - 34, Y(pos[1]) + 26, MP.get(SUBM)))
         elif wall == "right":
             sh.rect(X(W), Y(pos[1] - sw_w / 2), sw_d * s, sw_w * s, "sub" if not rcp else "spkghost")
             if not rcp:
                 sh.tag(X(W) + t + 34, Y(pos[1]), lab, "tagsub")
+                sh.add(svg_price(X(W) + t + 34, Y(pos[1]) + 26, MP.get(SUBM)))
         elif wall == "front":
             sh.rect(X(pos[0] - sw_w / 2), Y(0) - sw_d * s, sw_w * s, sw_d * s, "sub")
             if not rcp:
                 sh.tag(X(pos[0]), Y(0) - t - 22, lab, "tagsub")
+                sh.add(svg_price(X(pos[0]), Y(0) + 18, MP.get(SUBM)))
         else:
             sh.rect(X(pos[0] - sw_w / 2), Y(L), sw_w * s, sw_d * s, "sub")
             if not rcp:
                 sh.tag(X(pos[0]), Y(L) + t + 22, lab, "tagsub")
+                sh.add(svg_price(X(pos[0]), Y(L) - 12, MP.get(SUBM)))
 
     # dimensions
     sh.dim(X(0), Y(0) - t, X(W), Y(0) - t, -54, ftin(W))
@@ -437,6 +455,8 @@ def sheet_a201():
     sh.rect(X(0), Z(H), W * s, H * s, "fabric")
     sh.rect(X(SC["x0"]) - 8, Z(SC["zt"]) - 8, SC["w"] * s + 16, SC["h"] * s + 16, "frameblk")
     sh.rect(X(SC["x0"]), Z(SC["zt"]), SC["w"] * s, SC["h"] * s, "image")
+    sh.text(X(W / 2), Z((SC["zb"] + SC["zt"]) / 2) + 6, "CHT", "logo1")
+    sh.text(X(W / 2), Z((SC["zb"] + SC["zt"]) / 2) + 34, BRAND.upper(), "logo2")
     sh.text(X(W / 2), Z(SC["zt"]) + 36, f"{D['inputs']['screen']['diag_in']}\" DIAG. {D['inputs']['screen']['aspect_label']} AT IMAGE",
             "small")
     for ch in ("L", "C", "R"):
@@ -643,9 +663,9 @@ def sheet_av501():
     t1 = table(["Tag", "Model", "Mounting", "X (from left wall)", "Y (from screen wall)", "Z (A.F.F.)", "Azimuth @RSP",
                 "Elevation @RSP", "Distance", "Aim"], ch_rows, "num")
     bom = [[str(b["qty"]), e(b["model"]), e(b["sku"] or "-"), e(b["desc"]), e(b.get("note", "")),
-            money(b.get("msrp")), money(b.get("ext_msrp"))] for b in D["bom"]]
+            pcell(b.get("msrp")), pcell(b.get("ext_msrp"))] for b in D["bom"]]
     if D.get("msrp_total") is not None:
-        bom.append(["", "", "", "<b>Equipment on Savant list</b>", "", "", f"<b>{money(D['msrp_total'])}</b>"])
+        bom.append(["", "", "", "<b>Equipment on Savant list</b>", "", "", f"<b>{pcell(D['msrp_total'])}</b>"])
     t2 = table(["Qty", "Model", "SKU", "Description", "Note", "List (MSRP)", "Ext. list"], bom, "num")
     amap = [[e(a["ch"]), e(a["amp"]), str(a["out"])] for a in D["amp_map"]]
     t3 = table(["Channel", "Amplifier", "Output"], amap, "num")
@@ -735,8 +755,9 @@ def cover():
              ("Processor", f"{sy['processor']}, {sy['proc_outputs_used']}/{sy['proc_capacity']} outputs"),
              ("Est. level", f"{D['spl']['achievable']:.0f}-{D['spl']['achievable_max']:.0f} dB peaks"),
              ("Bass spread", f"{SUB['mean_sd']:.1f} dB mean seat SD"),
-             ("Equipment list", money(D.get("msrp_total")) + " MSRP" if D.get("msrp_total") else "prices not loaded")]
-    facts_html = "".join(f'<div class="fact"><span class="k">{e(k)}</span><span class="v">{e(vv)}</span></div>' for k, vv in facts)
+             ("Equipment list", "PRICE")]
+    facts_html = "".join(f'<div class="fact"><span class="k">{e(k)}</span><span class="v">'
+                         f'{pcell(D.get("msrp_total"), "use Show prices") if vv == "PRICE" else e(vv)}</span></div>' for k, vv in facts)
     basis = [
         "Clean-room design using published manufacturer data and the CHT calculation catalog (Phase 3). Formula IDs on AV-601.",
         "Room 24′ L × 18′ W; ceiling 9′ is an assumption. Finished-face dimensions to be field-verified.",
@@ -762,7 +783,8 @@ def cover():
 SHEET_INDEX = [("T-001", "Cover, sheet index, design basis"), ("A-101", "Floor plan and speaker layout"),
                ("A-102", "Reflected ceiling plan"), ("A-201", "Screen wall elevation"), ("A-202", "Side wall elevations"),
                ("A-301", "Longitudinal section"), ("AV-501", "Schedules"), ("AV-601", "Performance calculations and review"),
-               ("AV-602", "Subwoofer planner (interactive)"), ("AV-701", "Good / Better / Best options")]
+               ("AV-602", "Subwoofer planner (interactive)"), ("AV-701", "Good / Better / Best options"),
+               ("AV-702", "Budget builder"), ("V-801", "3D model and client spin")]
 
 
 def money(v):
@@ -808,7 +830,7 @@ def sheet_av701():
             ("Bass evenness (mean seat SD)", lambda s_: f"{s_['sub_sd']:.2f} dB"),
             ("Image brightness (est.)", lambda s_: f"{s_['fL']:.0f} fL"),
             ("Design flags", lambda s_: str(len(s_["warnings"]))),
-            ("Equipment at list (MSRP)", lambda s_: f"<b>{money(s_['msrp_total'])}</b>")]
+            ("Equipment at list (MSRP)", lambda s_: f"<b>{pcell(s_['msrp_total'], 'use Show prices')}</b>")]
     head = "".join(f'<th class="{"cur" if t == D["tier"] else ""}">{e(OPT[t]["label"])}{" (drawn)" if t == D["tier"] else ""}</th>' for t in tiers)
     trs = "".join(f"<tr><th scope=\"row\">{e(lab)}</th>" + "".join(
         f'<td class="{"cur" if t == D["tier"] else ""}">{fn(OPT[t])}</td>' for t in tiers) + "</tr>" for lab, fn in rows)
@@ -816,8 +838,8 @@ def sheet_av701():
     lists = ""
     for t in tiers:
         s_ = OPT[t]
-        rr = [[str(b["qty"]), e(b["desc"]), money(b.get("ext_msrp"))] for b in s_["bom"] if b.get("sku")]
-        rr.append(["", "<b>Total at list</b>", f"<b>{money(s_['msrp_total'])}</b>"])
+        rr = [[str(b["qty"]), e(b["desc"]), pcell(b.get("ext_msrp"))] for b in s_["bom"] if b.get("sku")]
+        rr.append(["", "<b>Total at list</b>", f"<b>{pcell(s_['msrp_total'])}</b>"])
         lists += f'<div class="cell"><h3>{e(s_["label"])} equipment</h3>{table(["Qty", "Item", "Ext. list"], rr, "plist")}</div>'
     body = (f'<div class="g2"><div class="cell wide"><h3>Package comparison</h3>{comp}'
             f'<p class="fine">Same room, seating, screen and speaker positions for every package; products, subwoofer count and electronics change. '
@@ -966,6 +988,8 @@ PLANNER_JS = r"""
 """
 
 
+LOGO_CSS = ".logo1{font-family:var(--f-display);font-size:58px;font-weight:700;fill:var(--accent);letter-spacing:.06em}.logo2{font-family:var(--f-display);font-size:17px;font-weight:600;fill:var(--ink);letter-spacing:.32em}"
+
 CSS = r"""
 :root{
   --paper:#0f3a5f; --paper2:#0c3354; --ink:#e9f2fb; --ink2:#a9c4de; --ink3:#6f93b6;
@@ -1058,7 +1082,7 @@ table.num td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-s
 .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
 .coverhero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,6vw,64px);letter-spacing:.02em;line-height:1;margin:0;text-wrap:balance}
 .lede{font-size:16px;line-height:1.55;color:var(--ink2);max-width:65ch;margin:0}
-.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--ink3);border:1px solid var(--ink3);margin-top:8px}
+.facts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--ink3);border:1px solid var(--ink3);margin-top:8px}
 .fact{background:var(--paper);padding:10px 12px;display:flex;flex-direction:column;gap:3px}
 .fact .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
 .fact .v{font-family:var(--f-display);font-size:20px;font-weight:600;letter-spacing:.02em}
@@ -1067,7 +1091,7 @@ table.num td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-s
 .index a span{font-family:var(--f-mono);color:var(--accent);min-width:64px}
 .index a:hover span,.index a:focus-visible span{text-decoration:underline}
 .basis{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.5;color:var(--ink)}
-@media (max-width:720px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1000px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 @media print{
   :root{--paper:#fff;--paper2:#fff;--ink:#111;--ink2:#444;--ink3:#888;--accent:#111;--sub:#555;--ok:#111;--no:#b00;--zone:#333;color-scheme:light}
@@ -1093,13 +1117,15 @@ def main():
     sheets.append(sheet_av601())
     sheets.append(sheet_av602())
     sheets.append(sheet_av701())
+    sheets.append(sheet_budget(D, html_sheet))
+    sheets.append(sheet_3d(D, html_sheet))
     nav = "".join(f'<a href="#{n.lower()}">{n}</a>' for n, _ in SHEET_INDEX)
     doc = (f'<title>JBL 24x18 Theater Drawings</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
            f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
            f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">'
-           f'<style>{CSS}{CSS2}</style>\n<div class="wrap"><div class="topbar"><h1>JBL Synthesis Theater, 24 × 18: concept drawing set</h1>'
-           f'<nav aria-label="Sheets">{nav}</nav></div>{"".join(sheets)}</div>')
-    doc += PLANNER_JS
+           f'<style>{CSS}{CSS2}{CSS3}{LOGO_CSS}</style>\n<div class="wrap"><div class="topbar"><h1>JBL Synthesis Theater, 24 × 18: concept drawing set</h1>'
+           f'<nav aria-label="Sheets">{nav}</nav>{toolbar()}</div>{"".join(sheets)}</div>')
+    doc += PLANNER_JS + FEATURES_JS
     out = os.path.join(HERE, "out", "drawing-set.html")
     with open(out, "w") as f:
         f.write(doc)

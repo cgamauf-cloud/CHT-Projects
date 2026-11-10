@@ -43,3 +43,20 @@ Product data, placement windows and absorption coefficients come from secondary 
 - **Subwoofer layouts:** `design.py --list-subs` lists the common layouts (front pair, corners, side midpoints, wall midpoints, side ¼/¾, front/back ¼/¾, diagonal, custom). The engine rejects any layout that collides with a speaker or the door. Use `--subs <id>` to force one, or set `P['subs_custom']` for your own positions.
 - **Interactive planner:** sheet AV-602 lets you pick a layout or drag the subs along the walls (or move them with the arrow keys). It recomputes the seat-by-seat bass response, the evenness score and the LFE estimate live, using the same modal model as the engine.
 - **Pricing:** list prices come from the private Savant import (see `tools/pricing/README.md`). Dealer cost appears only in the private parts catalog workbook.
+
+## Rev C: pricing overlay, budget builder, 3D model (`features.py`)
+
+- **Show prices:** a toolbar button (top of the page) that puts list prices (MSRP) on every selected part: price tags on the floor plan and ceiling plan, price columns in the equipment schedule, the package comparison and the cover. Prices are hidden by default, so the page can be shown to a client without them.
+- **Budget ranges:** turns every price into a ±N % range (default 10 %, adjustable).
+- **Budget builder (AV-702):**
+  - Pick Good, Better or Best and set the ± range.
+  - Equipment is grouped into budget categories: Audio, Video, Control, Power, Seating, Acoustic treatment, Infrastructure, Labor.
+  - Items that aren't on the Savant list (screen, seats, treatment, infrastructure, labor) are entered as allowances. These are saved per browser.
+- **3D model (V-801):**
+  - A cutaway render of the room built from the same `design.json` as the drawings: seats, riser, screen, speakers, subs, projector and beam, treatment, door.
+  - The screen always shows the **Chicagoland Home Theater** wordmark. "Use our logo file" swaps in your real logo (PNG or SVG), saved per browser.
+  - The drawn screen elevation (A-201) carries the wordmark too.
+  - With Show prices on, each part gets a model and price label.
+  - **Spin** starts a slow turntable (40 s per turn).
+  - **Export spin video** (WebM) and **Save still image** (PNG) save through the page's `downloads` capability, after the viewer confirms.
+- **Offline client video:** `out/cht-theater-spin.mp4` (1920×1080, 30 s, 30 fps) and `out/cht-theater-hero.png` are rendered headless through the page's own scene (`window.CHT3D.frame(angle)`) and encoded with ffmpeg.
